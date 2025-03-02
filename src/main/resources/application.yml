@@ -1,0 +1,14 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: clockin
+      username: admin
+      password: admin
+      authentication-database: admin
+
+jwt:
+  secret: DEV_JWT_S3cret_K3y_F0r_Cl0ck1n_4pp_32BytesL0ng!
+  expiration: 86400000
+  cookie-name: jwt-token
