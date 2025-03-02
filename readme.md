@@ -67,6 +67,4 @@ The application implements JWT-based authentication with tokens stored in HTTP-o
 
 ## License
 
-## License
-
 This project is licensed under the GNU General Public License v3.0 - see the [license.md](license.md) file for details.
