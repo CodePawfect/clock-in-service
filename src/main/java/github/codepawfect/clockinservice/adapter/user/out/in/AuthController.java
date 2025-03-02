@@ -35,7 +35,7 @@ public class AuthController {
      * @return the response entity containing the user's username and roles
      */
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    public ResponseEntity<LoginResponse> login(@RequestBody LoginRequest loginRequest) {
         AuthenticatedUserInformation response = authService.authenticate(
                 loginRequest.username(),
                 loginRequest.password());
