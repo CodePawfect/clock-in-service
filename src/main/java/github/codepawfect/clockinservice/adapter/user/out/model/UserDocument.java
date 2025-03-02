@@ -14,30 +14,13 @@ import java.util.stream.Collectors;
  * UserDocument is a model class that represents a user document in the database.
  */
 @Document(collection = "users")
-public class UserDocument implements UserDetails {
-    @Id
-    private String id;
-    private String username;
-    private String password;
-    private List<String> roles;
+public record UserDocument(@Id String id, String username, String password, List<String> roles) implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))
                 .collect(Collectors.toList());
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRoles(List<String> roles) {
-        this.roles = roles;
     }
 
     @Override
@@ -70,4 +53,3 @@ public class UserDocument implements UserDetails {
         return true;
     }
 }
-

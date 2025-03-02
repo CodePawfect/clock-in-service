@@ -39,10 +39,7 @@ public class V002__AdminUserInitialization {
                 !mongoTemplate.exists(Query.query(Criteria.where("username")
                         .is(adminUsername)), "users")) {
 
-            UserDocument adminUser = new UserDocument();
-            adminUser.setUsername(adminUsername);
-            adminUser.setPassword(passwordEncoder.encode(adminPassword));
-            adminUser.setRoles(Collections.singletonList("ADMIN"));
+            UserDocument adminUser = new UserDocument(null, adminUsername, passwordEncoder.encode(adminPassword), Collections.singletonList("ADMIN"));
 
             mongoTemplate.save(adminUser, "users");
         }

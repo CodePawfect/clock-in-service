@@ -11,7 +11,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -73,10 +72,7 @@ public class AuthenticationService {
             throw new UserAlreadyExistsException("Username is already taken");
         }
 
-        UserDocument user = new UserDocument();
-        user.setUsername(username);
-        user.setPassword(passwordEncoder.encode(password));
-        user.setRoles(Collections.singletonList("USER"));
+        UserDocument user = new UserDocument(null, username, passwordEncoder.encode(password), Collections.singletonList("USER"));
 
         userRepository.save(user);
     }

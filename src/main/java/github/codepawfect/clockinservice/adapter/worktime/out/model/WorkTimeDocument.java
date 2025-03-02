@@ -1,47 +1,35 @@
 package github.codepawfect.clockinservice.adapter.worktime.out.model;
 
+import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDate;
 
 @Document(collection = "worktimes")
-public class WorkTimeDocument {
-    @Id
-    private String id;
-    private String username;
-    private LocalDate date;
-    private Integer hoursWorked;
+public record WorkTimeDocument(@Id String id, String username, LocalDate date, Integer hoursWorked) {
 
-    public String getId() {
-        return id;
+    /**
+     * Creates a new WorkTimeDocument.
+     *
+     * @param workTime the work time to create the document from.
+     *
+     * @return a new WorkTimeDocument.
+     */
+    public static WorkTimeDocument from(WorkTime workTime) {
+        return new WorkTimeDocument(null, workTime.username(), workTime.date(), workTime.hoursWorked());
     }
 
-    public void setId(String id) {
-        this.id = id;
+    /**
+     * Converts a WorkTimeDocument to a WorkTime.
+     *
+     * @param workTimeDocument the WorkTimeDocument to convert.
+     *
+     * @return a new WorkTime.
+     */
+    public static WorkTime toWorkTime(WorkTimeDocument workTimeDocument) {
+        return new WorkTime(workTimeDocument.username(), workTimeDocument.date(), workTimeDocument.hoursWorked());
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
-    }
-
-    public Integer getHoursWorked() {
-        return hoursWorked;
-    }
-
-    public void setHoursWorked(Integer hoursWorked) {
-        this.hoursWorked = hoursWorked;
-    }
 }
+

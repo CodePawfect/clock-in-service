@@ -27,11 +27,12 @@ public class V003__WorkTimeCollectionInitialization {
 
             IndexOperations indexOps = mongoTemplate.indexOps("worktime");
 
-            IndexDefinition usernameIndex = new Index()
+            IndexDefinition username_calenderWeek_year_index = new Index()
                     .on("username", Sort.Direction.ASC)
-                    .unique();
+                    .on("calendarWeek", Sort.Direction.ASC)
+                    .on("year", Sort.Direction.ASC);
 
-            indexOps.ensureIndex(usernameIndex);
+            indexOps.ensureIndex(username_calenderWeek_year_index);
         }
     }
 
