@@ -139,7 +139,6 @@ public class JwtUtils {
                 .maxAge(24 * 60 * 60) // 1 day in seconds
                 .httpOnly(true)       // prevents JavaScript access
                 .secure(jwtProperties.isSecured())         // only over HTTPS
-
                 .sameSite("Strict")   // mitigates CSRF
                 .build();
     }
