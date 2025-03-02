@@ -4,7 +4,6 @@ import github.codepawfect.clockinservice.adapter.user.out.model.UserDocument;
 import io.mongock.api.annotations.ChangeUnit;
 import io.mongock.api.annotations.Execution;
 import io.mongock.api.annotations.RollbackExecution;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
@@ -17,11 +16,11 @@ import java.util.Collections;
  * Initializes the admin user in the database.
  */
 @ChangeUnit(id = "admin-user-initialization", order = "002", author = "codepawfect")
-public class AdminUserInitialization {
+public class V002__AdminUserInitialization {
 
     private final Environment environment;
 
-    public AdminUserInitialization(Environment environment) {
+    public V002__AdminUserInitialization(Environment environment) {
         this.environment = environment;
     }
 

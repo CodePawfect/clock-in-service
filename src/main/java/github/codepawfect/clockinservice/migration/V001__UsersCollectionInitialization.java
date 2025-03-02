@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * Initializes the users collection in the database.
  */
 @ChangeUnit(id = "users-collection-initialization", order = "001", author = "codepawfect")
-public class UsersCollectionInitialization {
+public class V001__UsersCollectionInitialization {
 
     /**
      * Creates the users collection and indexes.
