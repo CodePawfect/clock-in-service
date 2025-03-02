@@ -5,7 +5,6 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -23,14 +22,11 @@ import java.util.function.Function;
 @Component
 public class JwtUtils {
 
-    @Value("${jwt.secret}")
-    private String secret;
+    private final JwtProperties jwtProperties;
 
-    @Value("${jwt.expiration}")
-    private long jwtExpiration;
-
-    @Value("${jwt.cookie-name}")
-    private String cookieName;
+    public JwtUtils(JwtProperties jwtProperties) {
+        this.jwtProperties = jwtProperties;
+    }
 
     /**
      * Generates a JWT token for the given user details.
@@ -48,7 +44,7 @@ public class JwtUtils {
      */
     private String createToken(Map<String, Object> claims, String subject) {
         Date now = new Date();
-        Date expiry = new Date(now.getTime() + jwtExpiration);
+        Date expiry = new Date(now.getTime() + jwtProperties.getExpiration());
         return Jwts.builder()
                 .claims(claims)
                 .subject(subject)
@@ -63,7 +59,7 @@ public class JwtUtils {
      * It also validates that the key is of sufficient length (256 bits for HS256).
      */
     private SecretKey getVerificationKey() {
-        byte[] keyBytes = secret.getBytes(StandardCharsets.UTF_8);
+        byte[] keyBytes = jwtProperties.getSecret().getBytes(StandardCharsets.UTF_8);
         if (keyBytes.length < 32) {
             throw new IllegalArgumentException("The JWT secret key must be at least 32 bytes long.");
         }
@@ -125,7 +121,7 @@ public class JwtUtils {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                if (cookieName.equals(cookie.getName())) {
+                if (jwtProperties.getCookieName().equals(cookie.getName())) {
                     return cookie.getValue();
                 }
             }
@@ -138,11 +134,12 @@ public class JwtUtils {
      */
     public ResponseCookie generateJwtCookie(UserDetails userDetails) {
         String jwt = generateToken(userDetails);
-        return ResponseCookie.from(cookieName, jwt)
+        return ResponseCookie.from(jwtProperties.getCookieName(), jwt)
                 .path("/")
                 .maxAge(24 * 60 * 60) // 1 day in seconds
                 .httpOnly(true)       // prevents JavaScript access
-                .secure(true)         // only over HTTPS
+                .secure(jwtProperties.isSecured())         // only over HTTPS
+
                 .sameSite("Strict")   // mitigates CSRF
                 .build();
     }
@@ -151,11 +148,11 @@ public class JwtUtils {
      * Generates a cleared cookie for logging out.
      */
     public ResponseCookie getCleanJwtCookie() {
-        return ResponseCookie.from(cookieName, "")
+        return ResponseCookie.from(jwtProperties.getCookieName(), "")
                 .path("/")
                 .maxAge(0)
                 .httpOnly(true)
-                .secure(true)
+                .secure(jwtProperties.isSecured())
                 .sameSite("Strict")
                 .build();
     }
