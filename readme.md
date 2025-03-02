@@ -7,7 +7,7 @@ A Spring Boot service for managing employee work time tracking.
 Clock-In Service is a backend application that allows users to log their working hours and retrieve their time records
 by calendar week and year. The application uses a MongoDB database for storage and JWT authentication for security.
 
-## Features
+## ✨ Features
 
 - User authentication and authorization using JWT tokens
 - Record work hours with date and duration
@@ -36,7 +36,7 @@ Authentication endpoints are available for user management.
 | POST   | `/api/worktimes`                       | Create a new work time entry                       |
 | GET    | `/api/worktimes/{calendarWeek}/{year}` | Get work time entries for a specific week and year |
 
-## Architecture
+## 🔌 Architecture
 
 The project follows a hexagonal (ports and adapters) architecture:
 
@@ -46,7 +46,7 @@ The project follows a hexagonal (ports and adapters) architecture:
     - Out: Database repositories and document models
 - **Ports**: Interfaces defining how the domain interacts with external components
 
-## Setup and Installation
+## 📖 Setup and Installation
 
 1. Ensure you have Java 21 and Maven installed
 2. Make sure MongoDB is running locally or configure connection to remote instance
