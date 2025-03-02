@@ -16,5 +16,5 @@ public interface CreateWorkTimePort {
      *
      * @return the ID of the created work time entry
      */
-    Long createWorkTime(String username, LocalDate date, Integer hoursWorked);
+    String createWorkTime(String username, LocalDate date, Integer hoursWorked);
 }

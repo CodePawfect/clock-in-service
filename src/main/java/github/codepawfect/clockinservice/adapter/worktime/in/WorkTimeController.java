@@ -37,7 +37,7 @@ public class WorkTimeController {
     public ResponseEntity<URI> createWorkTime(@RequestBody CreateWorkTimeRequest createWorkTimeRequest,
                                               HttpServletRequest request) {
         String username = jwtUtils.extractUsername(jwtUtils.getJwtFromCookies(request));
-        Long workTimeId = createWorkTimePort.createWorkTime(username, createWorkTimeRequest.date(), createWorkTimeRequest.hoursWorked());
+        String workTimeId = createWorkTimePort.createWorkTime(username, createWorkTimeRequest.date(), createWorkTimeRequest.hoursWorked());
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()

@@ -20,7 +20,7 @@ public class WorkTimeService implements CreateWorkTimePort {
 
     /** {@inheritDoc} */
     @Override
-    public Long createWorkTime(String username, LocalDate date, Integer hoursWorked) {
+    public String createWorkTime(String username, LocalDate date, Integer hoursWorked) {
         throw new UnsupportedOperationException("Not implemented yet");
     }
 }
