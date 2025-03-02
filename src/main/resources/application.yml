@@ -12,3 +12,12 @@ jwt:
   secret: DEV_JWT_S3cret_K3y_F0r_Cl0ck1n_4pp_32BytesL0ng!
   expiration: 86400000
   cookie-name: jwt-token
+
+mongock:
+  migration-scan-package: github.codepawfect.clockinservice.migration
+  track-ignored: false
+  runner-type: InitializingBean
+  enabled: true
+  throw-exception-if-cannot-obtain-lock: false
+  migration-repository-name: mongockChangeLog
+  lock-repository-name: mongockLock
