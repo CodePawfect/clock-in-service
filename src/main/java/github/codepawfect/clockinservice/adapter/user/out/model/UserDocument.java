@@ -28,6 +28,18 @@ public class UserDocument implements UserDetails {
                 .collect(Collectors.toList());
     }
 
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public String getPassword() {
         return this.password;
@@ -57,6 +69,5 @@ public class UserDocument implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
 }
 
