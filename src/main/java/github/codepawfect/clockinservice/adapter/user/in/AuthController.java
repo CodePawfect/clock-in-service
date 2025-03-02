@@ -1,10 +1,10 @@
-package github.codepawfect.clockinservice.adapter.user.out.in;
+package github.codepawfect.clockinservice.adapter.user.in;
 
-import github.codepawfect.clockinservice.adapter.user.out.in.model.RegisterRequest;
+import github.codepawfect.clockinservice.adapter.user.in.model.RegisterRequest;
 import github.codepawfect.clockinservice.adapter.user.out.service.exception.UserAlreadyExistsException;
 import github.codepawfect.clockinservice.adapter.user.out.service.model.AuthenticatedUserInformation;
-import github.codepawfect.clockinservice.adapter.user.out.in.model.LoginRequest;
-import github.codepawfect.clockinservice.adapter.user.out.in.model.LoginResponse;
+import github.codepawfect.clockinservice.adapter.user.in.model.LoginRequest;
+import github.codepawfect.clockinservice.adapter.user.in.model.LoginResponse;
 import github.codepawfect.clockinservice.adapter.user.out.service.AuthenticationService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
