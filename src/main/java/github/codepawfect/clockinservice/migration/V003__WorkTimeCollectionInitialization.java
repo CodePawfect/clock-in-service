@@ -10,10 +10,10 @@ import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.index.IndexOperations;
 
 /**
- * Initializes the users collection in the database.
+ * Initializes the work time collection in the database.
  */
-@ChangeUnit(id = "users-collection-initialization", order = "001", author = "codepawfect")
-public class V001__UsersCollectionInitialization {
+@ChangeUnit(id = "work-time-collection-initialization", order = "003", author = "codepawfect")
+public class V003__WorkTimeCollectionInitialization {
 
     /**
      * Creates the users collection and indexes.
@@ -22,10 +22,10 @@ public class V001__UsersCollectionInitialization {
      */
     @Execution
     public void execution(MongoTemplate mongoTemplate) {
-        if (!mongoTemplate.collectionExists("users")) {
-            mongoTemplate.createCollection("users");
+        if (!mongoTemplate.collectionExists("worktime")) {
+            mongoTemplate.createCollection("worktime");
 
-            IndexOperations indexOps = mongoTemplate.indexOps("users");
+            IndexOperations indexOps = mongoTemplate.indexOps("worktime");
 
             IndexDefinition usernameIndex = new Index()
                     .on("username", Sort.Direction.ASC)
@@ -36,13 +36,13 @@ public class V001__UsersCollectionInitialization {
     }
 
     /**
-     * Drops the users collection.
+     * Drops the worktime collection.
      *
      * @param mongoTemplate The MongoTemplate to use for database operations.
      */
     @RollbackExecution
     public void rollbackExecution(MongoTemplate mongoTemplate) {
-        mongoTemplate.dropCollection("users");
+        mongoTemplate.dropCollection("worktime");
     }
 }
 
