@@ -1,6 +1,6 @@
 package github.codepawfect.clockinservice;
 
-import github.codepawfect.clockinservice.adapter.utils.JwtProperties;
+import github.codepawfect.clockinservice.adapter.common.JwtProperties;
 import io.mongock.runner.springboot.EnableMongock;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

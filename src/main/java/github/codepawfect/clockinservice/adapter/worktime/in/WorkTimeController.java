@@ -1,6 +1,6 @@
 package github.codepawfect.clockinservice.adapter.worktime.in;
 
-import github.codepawfect.clockinservice.adapter.utils.JwtUtils;
+import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.CreateWorkTimeRequest;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.GetWorkTimesResponse;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
@@ -52,8 +52,7 @@ public class WorkTimeController {
             responseCode = "201",
             description = "Work time created successfully",
             content = @Content(schema = @Schema(implementation = Void.class))),
-        @ApiResponse(responseCode = "400", description = "Invalid input data"),
-        @ApiResponse(responseCode = "401", description = "Unauthorized")
+        @ApiResponse(responseCode = "400", description = "Invalid input data")
       })
   public ResponseEntity<URI> createWorkTime(
       @RequestBody @Valid CreateWorkTimeRequest createWorkTimeRequest, HttpServletRequest request) {

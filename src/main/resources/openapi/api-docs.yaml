@@ -1,0 +1,208 @@
+openapi: 3.1.0
+info:
+  title: Work Time API
+  description: API for managing work time entries
+  contact:
+    name: Development Team
+    email: codepawfect@gmail.com
+  version: "1.0"
+servers:
+  - url: http://localhost:8080
+    description: Generated server url
+tags:
+  - name: Work Time
+    description: Work time management API
+paths:
+  /api/worktimes:
+    post:
+      tags:
+        - Work Time
+      summary: Create a new work time entry
+      description: Creates a work time entry for the authenticated user
+      operationId: createWorkTime
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateWorkTimeRequest"
+        required: true
+      responses:
+        "201":
+          description: Work time created successfully
+        "400":
+          description: Invalid input data
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: uri
+        "401":
+          description: Unauthorized
+          content:
+            '*/*':
+              schema:
+                type: string
+                format: uri
+  /api/auth/register:
+    post:
+      tags:
+        - auth-controller
+      operationId: register
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/auth/logout:
+    post:
+      tags:
+        - auth-controller
+      operationId: logout
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                type: object
+  /api/auth/login:
+    post:
+      tags:
+        - auth-controller
+      operationId: login
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+        required: true
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+  /api/worktimes/{calenderWeek}/{year}:
+    get:
+      tags:
+        - Work Time
+      operationId: getWorkTimes
+      parameters:
+        - name: calenderWeek
+          in: path
+          description: Calender week of the year
+          required: true
+          schema:
+            type: integer
+            format: int32
+            description: Calender week of the year
+            example: 34
+            maximum: 53
+            minimum: 1
+          example: 34
+        - name: year
+          in: path
+          description: Year
+          required: true
+          schema:
+            type: integer
+            format: int32
+            description: Year
+            example: 2025
+          example: 2025
+      responses:
+        "200":
+          description: OK
+          content:
+            '*/*':
+              schema:
+                $ref: "#/components/schemas/GetWorkTimesResponse"
+components:
+  schemas:
+    CreateWorkTimeRequest:
+      type: object
+      description: Request to create a new work time entry
+      properties:
+        date:
+          type: string
+          format: date
+          description: Date of the work time entry
+          example: 2023-10-15
+        year:
+          type: integer
+          format: int32
+          description: Year of the work time entry
+          example: 2023
+        calenderWeek:
+          type: integer
+          format: int32
+          description: Calendar week of the work time entry
+          example: 34
+        hoursWorked:
+          type: integer
+          format: int32
+          description: Number of hours worked
+          example: 8
+          maximum: 12
+          minimum: 1
+      required:
+        - calenderWeek
+        - date
+        - hoursWorked
+        - year
+    RegisterRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      properties:
+        username:
+          type: string
+        roles:
+          type: array
+          items:
+            type: string
+    GetWorkTimesResponse:
+      type: object
+      properties:
+        workTimes:
+          type: array
+          items:
+            $ref: "#/components/schemas/WorkTime"
+    WorkTime:
+      type: object
+      properties:
+        username:
+          type: string
+        date:
+          type: string
+          format: date
+        hoursWorked:
+          type: integer
+          format: int32
+        year:
+          type: integer
+          format: int32
+        calenderWeek:
+          type: integer
+          format: int32

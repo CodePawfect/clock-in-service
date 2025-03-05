@@ -12,7 +12,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
@@ -25,12 +24,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig {
 
   private final JwtAuthenticationFilter jwtAuthFilter;
-  private final AuthenticationEntryPoint unauthorizedHandler;
 
-  public SecurityConfig(
-      JwtAuthenticationFilter jwtAuthFilter, AuthenticationEntryPoint unauthorizedHandler) {
+  public SecurityConfig(JwtAuthenticationFilter jwtAuthFilter) {
     this.jwtAuthFilter = jwtAuthFilter;
-    this.unauthorizedHandler = unauthorizedHandler;
   }
 
   /**
@@ -86,17 +82,20 @@ public class SecurityConfig {
   public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
     http.csrf(AbstractHttpConfigurer::disable)
         .cors(c -> c.configurationSource(corsConfigurationSource()))
-        .exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
         .sessionManagement(
             session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
         .authorizeHttpRequests(
             auth ->
-                auth.requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
+                auth.requestMatchers(
+                        "/v3/api-docs/**",
+                        "/v3/api-docs.yaml",
+                        "/swagger-ui/**",
+                        "/swagger-ui.html")
+                    .permitAll()
+                    .requestMatchers("/api/auth/login")
                     .permitAll()
                     .requestMatchers("/api/auth/register")
                     .hasRole("ADMIN")
-                    .requestMatchers("/api/auth/login")
-                    .permitAll()
                     .anyRequest()
                     .authenticated());
 
