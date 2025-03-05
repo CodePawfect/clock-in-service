@@ -6,23 +6,18 @@ import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
-/**
- * BaseIntegrationTest is a base class for integration tests.
- */
+/** BaseIntegrationTest is a base class for integration tests. */
 @Testcontainers
 @ActiveProfiles("test")
 public abstract class BaseIntegrationTest {
 
-    @Container
-    protected static final MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:latest");
+  @Container
+  protected static final MongoDBContainer mongoDBContainer = new MongoDBContainer("mongo:latest");
 
-    /**
-     * Sets up the MongoDB container.
-     */
-    @BeforeAll
-    public static void setUp() {
-        mongoDBContainer.start();
-        System.setProperty("spring.data.mongodb.uri", mongoDBContainer.getReplicaSetUrl());
-    }
+  /** Sets up the MongoDB container. */
+  @BeforeAll
+  public static void setUp() {
+    mongoDBContainer.start();
+    System.setProperty("spring.data.mongodb.uri", mongoDBContainer.getReplicaSetUrl());
+  }
 }
-

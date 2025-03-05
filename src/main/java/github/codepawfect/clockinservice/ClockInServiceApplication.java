@@ -11,8 +11,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 @EnableMongock
 public class ClockInServiceApplication {
 
-    public static void main(String[] args) {
-        SpringApplication.run(ClockInServiceApplication.class, args);
-    }
-
+  public static void main(String[] args) {
+    SpringApplication.run(ClockInServiceApplication.class, args);
+  }
 }

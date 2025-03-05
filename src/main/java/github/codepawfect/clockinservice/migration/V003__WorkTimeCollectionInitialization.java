@@ -9,41 +9,39 @@ import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.index.IndexOperations;
 
-/**
- * Initializes the work time collection in the database.
- */
+/** Initializes the work time collection in the database. */
 @ChangeUnit(id = "work-time-collection-initialization", order = "003", author = "codepawfect")
 public class V003__WorkTimeCollectionInitialization {
 
-    /**
-     * Creates the users collection and indexes.
-     *
-     * @param mongoTemplate The MongoTemplate to use for database operations.
-     */
-    @Execution
-    public void execution(MongoTemplate mongoTemplate) {
-        if (!mongoTemplate.collectionExists("worktime")) {
-            mongoTemplate.createCollection("worktime");
+  /**
+   * Creates the users collection and indexes.
+   *
+   * @param mongoTemplate The MongoTemplate to use for database operations.
+   */
+  @Execution
+  public void execution(MongoTemplate mongoTemplate) {
+    if (!mongoTemplate.collectionExists("worktime")) {
+      mongoTemplate.createCollection("worktime");
 
-            IndexOperations indexOps = mongoTemplate.indexOps("worktime");
+      IndexOperations indexOps = mongoTemplate.indexOps("worktime");
 
-            IndexDefinition username_calenderWeek_year_index = new Index()
-                    .on("username", Sort.Direction.ASC)
-                    .on("calendarWeek", Sort.Direction.ASC)
-                    .on("year", Sort.Direction.ASC);
+      IndexDefinition username_calenderWeek_year_index =
+          new Index()
+              .on("username", Sort.Direction.ASC)
+              .on("calendarWeek", Sort.Direction.ASC)
+              .on("year", Sort.Direction.ASC);
 
-            indexOps.ensureIndex(username_calenderWeek_year_index);
-        }
+      indexOps.ensureIndex(username_calenderWeek_year_index);
     }
+  }
 
-    /**
-     * Drops the worktime collection.
-     *
-     * @param mongoTemplate The MongoTemplate to use for database operations.
-     */
-    @RollbackExecution
-    public void rollbackExecution(MongoTemplate mongoTemplate) {
-        mongoTemplate.dropCollection("worktime");
-    }
+  /**
+   * Drops the worktime collection.
+   *
+   * @param mongoTemplate The MongoTemplate to use for database operations.
+   */
+  @RollbackExecution
+  public void rollbackExecution(MongoTemplate mongoTemplate) {
+    mongoTemplate.dropCollection("worktime");
+  }
 }
-
