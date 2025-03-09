@@ -63,7 +63,8 @@ public class WorkTimeController {
             createWorkTimeRequest.date(),
             createWorkTimeRequest.hoursWorked(),
             createWorkTimeRequest.year(),
-            createWorkTimeRequest.calenderWeek());
+            createWorkTimeRequest.calenderWeek(),
+            createWorkTimeRequest.note());
 
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequest()

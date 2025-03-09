@@ -1,6 +1,7 @@
 package github.codepawfect.clockinservice.adapter.worktime.in.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -37,4 +38,10 @@ public record CreateWorkTimeRequest(
         @NotNull
         @Min(1)
         @Max(12)
-        Integer hoursWorked) {}
+        Integer hoursWorked,
+    @Schema(
+            description = "Calendar week of the work time entry",
+            example = "34",
+            requiredMode = Schema.RequiredMode.REQUIRED)
+        @Nullable
+        String note) {}

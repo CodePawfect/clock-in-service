@@ -1,10 +1,10 @@
 package github.codepawfect.clockinservice.adapter.user.out.service;
 
+import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import github.codepawfect.clockinservice.adapter.user.out.model.UserDocument;
 import github.codepawfect.clockinservice.adapter.user.out.repository.UserRepository;
 import github.codepawfect.clockinservice.adapter.user.out.service.exception.UserAlreadyExistsException;
 import github.codepawfect.clockinservice.adapter.user.out.service.model.AuthenticatedUserInformation;
-import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;

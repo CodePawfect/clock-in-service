@@ -13,8 +13,14 @@ public interface CreateWorkTimePort {
    * @param hoursWorked the hours worked
    * @param year the year of the work time entry
    * @param calenderWeek the calendar week of the work time entry
+   * @param note the note for the work time entry
    * @return the ID of the created work time entry
    */
   String createWorkTime(
-      String username, LocalDate date, Integer hoursWorked, Integer year, Integer calenderWeek);
+      String username,
+      LocalDate date,
+      Integer hoursWorked,
+      Integer year,
+      Integer calenderWeek,
+      String note);
 }

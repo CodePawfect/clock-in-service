@@ -20,10 +20,10 @@ public class V003__WorkTimeCollectionInitialization {
    */
   @Execution
   public void execution(MongoTemplate mongoTemplate) {
-    if (!mongoTemplate.collectionExists("worktime")) {
-      mongoTemplate.createCollection("worktime");
+    if (!mongoTemplate.collectionExists("worktimes")) {
+      mongoTemplate.createCollection("worktimes");
 
-      IndexOperations indexOps = mongoTemplate.indexOps("worktime");
+      IndexOperations indexOps = mongoTemplate.indexOps("worktimes");
 
       IndexDefinition username_calenderWeek_year_index =
           new Index()
@@ -42,6 +42,6 @@ public class V003__WorkTimeCollectionInitialization {
    */
   @RollbackExecution
   public void rollbackExecution(MongoTemplate mongoTemplate) {
-    mongoTemplate.dropCollection("worktime");
+    mongoTemplate.dropCollection("worktimes");
   }
 }

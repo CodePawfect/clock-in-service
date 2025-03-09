@@ -12,7 +12,8 @@ public record WorkTimeDocument(
     LocalDate date,
     Integer year,
     Integer calenderWeek,
-    Integer hoursWorked) {
+    Integer hoursWorked,
+    String note) {
 
   /**
    * Creates a new WorkTimeDocument.
@@ -27,7 +28,8 @@ public record WorkTimeDocument(
         workTime.date(),
         workTime.year(),
         workTime.calenderWeek(),
-        workTime.hoursWorked());
+        workTime.hoursWorked(),
+        workTime.note());
   }
 
   /**
@@ -42,6 +44,7 @@ public record WorkTimeDocument(
         workTimeDocument.date(),
         workTimeDocument.hoursWorked(),
         workTimeDocument.year(),
-        workTimeDocument.calenderWeek());
+        workTimeDocument.calenderWeek(),
+        workTimeDocument.note());
   }
 }

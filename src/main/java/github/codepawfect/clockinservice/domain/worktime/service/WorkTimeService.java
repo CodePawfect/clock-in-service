@@ -24,9 +24,14 @@ public class WorkTimeService implements CreateWorkTimePort, GetWorkTimesPort {
   /** {@inheritDoc} */
   @Override
   public String createWorkTime(
-      String username, LocalDate date, Integer hoursWorked, Integer year, Integer calenderWeek) {
+      String username,
+      LocalDate date,
+      Integer hoursWorked,
+      Integer year,
+      Integer calenderWeek,
+      String note) {
     return WriteWorkTimePort.save(
-        new WorkTime(username, date, hoursWorked, date.getYear(), calenderWeek));
+        new WorkTime(username, date, hoursWorked, date.getYear(), calenderWeek, note));
   }
 
   /** {@inheritDoc} */
