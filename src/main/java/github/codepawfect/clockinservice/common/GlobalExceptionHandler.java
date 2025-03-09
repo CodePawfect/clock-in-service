@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -27,6 +28,23 @@ public class GlobalExceptionHandler {
             ex.getMessage(),
             LocalDateTime.now());
     return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+  }
+
+  /**
+   * Handles an authentication exception.
+   *
+   * @param ex the exception to handle.
+   * @return a response entity with an error response.
+   */
+  @ExceptionHandler(AuthenticationException.class)
+  public ResponseEntity<ErrorResponse> handleAuthenticationException(AuthenticationException ex) {
+    ErrorResponse errorResponse =
+        new ErrorResponse(
+            HttpStatus.UNAUTHORIZED.value(),
+            "Benutzername oder Passwort ungültig",
+            ex.getMessage(),
+            LocalDateTime.now());
+    return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
   }
 
   /**
