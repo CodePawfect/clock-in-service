@@ -1,5 +1,6 @@
 package github.codepawfect.clockinservice.domain.worktime.service;
 
+import github.codepawfect.clockinservice.common.DateUtils;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesPort;
@@ -27,11 +28,9 @@ public class WorkTimeService implements CreateWorkTimePort, GetWorkTimesPort {
       String username,
       LocalDate date,
       Integer hoursWorked,
-      Integer year,
-      Integer calenderWeek,
       String note) {
     return WriteWorkTimePort.save(
-        new WorkTime(username, date, hoursWorked, date.getYear(), calenderWeek, note));
+        new WorkTime(username, date, hoursWorked, date.getYear(), DateUtils.getCalenderWeek(date), note));
   }
 
   /** {@inheritDoc} */

@@ -20,18 +20,6 @@ public record CreateWorkTimeRequest(
         @NotNull
         LocalDate date,
     @Schema(
-            description = "Year of the work time entry",
-            example = "2023",
-            requiredMode = Schema.RequiredMode.REQUIRED)
-        @NotNull
-        Integer year,
-    @Schema(
-            description = "Calendar week of the work time entry",
-            example = "34",
-            requiredMode = Schema.RequiredMode.REQUIRED)
-        @NotNull
-        Integer calenderWeek,
-    @Schema(
             description = "Number of hours worked",
             example = "8",
             requiredMode = Schema.RequiredMode.REQUIRED)

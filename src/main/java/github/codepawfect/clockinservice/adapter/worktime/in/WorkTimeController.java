@@ -62,8 +62,6 @@ public class WorkTimeController {
             username,
             createWorkTimeRequest.date(),
             createWorkTimeRequest.hoursWorked(),
-            createWorkTimeRequest.year(),
-            createWorkTimeRequest.calenderWeek(),
             createWorkTimeRequest.note());
 
     URI location =
