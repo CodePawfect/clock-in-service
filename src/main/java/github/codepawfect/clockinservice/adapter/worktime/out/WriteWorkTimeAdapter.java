@@ -21,4 +21,10 @@ public class WriteWorkTimeAdapter implements WriteWorkTimePort {
   public String save(WorkTime workTime) {
     return workTimeRepository.save(WorkTimeDocument.from(workTime)).id();
   }
+
+  /** {@inheritDoc} */
+  @Override
+  public void delete(String id) {
+    workTimeRepository.deleteById(id);
+  }
 }

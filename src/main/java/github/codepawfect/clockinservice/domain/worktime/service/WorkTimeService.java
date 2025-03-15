@@ -3,6 +3,7 @@ package github.codepawfect.clockinservice.domain.worktime.service;
 import github.codepawfect.clockinservice.common.DateUtils;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimePort;
+import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesPort;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.ReadWorkTimePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.WriteWorkTimePort;
@@ -12,30 +13,39 @@ import org.springframework.stereotype.Service;
 
 /** WorkTimeService is a service for handling work time operations. */
 @Service
-public class WorkTimeService implements CreateWorkTimePort, GetWorkTimesPort {
+public class WorkTimeService implements CreateWorkTimePort, GetWorkTimesPort, DeleteWorkTimePort {
 
-  private final WriteWorkTimePort WriteWorkTimePort;
+  private final WriteWorkTimePort writeWorkTimePort;
   private final ReadWorkTimePort readWorkTimePort;
 
   public WorkTimeService(WriteWorkTimePort writeWorkTimePort, ReadWorkTimePort readWorkTimePort) {
-    this.WriteWorkTimePort = writeWorkTimePort;
+    this.writeWorkTimePort = writeWorkTimePort;
     this.readWorkTimePort = readWorkTimePort;
   }
 
   /** {@inheritDoc} */
   @Override
-  public String createWorkTime(
-      String username,
-      LocalDate date,
-      Integer hoursWorked,
-      String note) {
-    return WriteWorkTimePort.save(
-        new WorkTime(username, date, hoursWorked, date.getYear(), DateUtils.getCalenderWeek(date), note));
+  public String createWorkTime(String username, LocalDate date, Integer hoursWorked, String note) {
+    return writeWorkTimePort.save(
+        new WorkTime(
+            null,
+            username,
+            date,
+            hoursWorked,
+            date.getYear(),
+            DateUtils.getCalenderWeek(date),
+            note));
   }
 
   /** {@inheritDoc} */
   @Override
   public List<WorkTime> getWorkTimes(String username, int calenderWeek, int year) {
     return readWorkTimePort.find(username, calenderWeek, year);
+  }
+
+  /** {@inheritDoc} */
+  @Override
+  public void deleteWorkTime(String id) {
+    writeWorkTimePort.delete(id);
   }
 }

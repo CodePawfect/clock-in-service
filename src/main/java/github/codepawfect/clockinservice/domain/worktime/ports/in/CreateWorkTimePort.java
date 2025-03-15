@@ -14,9 +14,5 @@ public interface CreateWorkTimePort {
    * @param note the note for the work time entry
    * @return the ID of the created work time entry
    */
-  String createWorkTime(
-      String username,
-      LocalDate date,
-      Integer hoursWorked,
-      String note);
+  String createWorkTime(String username, LocalDate date, Integer hoursWorked, String note);
 }

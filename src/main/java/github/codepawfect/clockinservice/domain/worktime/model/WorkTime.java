@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 /** WorkTime is a model class that represents a work time entry. */
 public record WorkTime(
+    String id,
     String username,
     LocalDate date,
     Integer hoursWorked,

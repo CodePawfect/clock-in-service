@@ -40,6 +40,7 @@ public record WorkTimeDocument(
    */
   public static WorkTime toWorkTime(WorkTimeDocument workTimeDocument) {
     return new WorkTime(
+        workTimeDocument.id,
         workTimeDocument.username(),
         workTimeDocument.date(),
         workTimeDocument.hoursWorked(),
