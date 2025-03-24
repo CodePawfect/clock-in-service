@@ -7,4 +7,4 @@ import java.util.List;
  * GetWorkTimesResponse is a model class that represents the response body for the get work times
  * endpoint.
  */
-public record GetWorkTimesResponse(List<WorkTime> workTimes) {}
+public record GetWorkTimesResponse(List<WorkTimeDto> workTimes) {}

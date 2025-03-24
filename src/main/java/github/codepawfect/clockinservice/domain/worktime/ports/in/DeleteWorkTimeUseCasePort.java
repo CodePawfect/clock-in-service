@@ -1,7 +1,7 @@
 package github.codepawfect.clockinservice.domain.worktime.ports.in;
 
 /** DeleteWorkTimePort is a port for deleting work time entries. */
-public interface DeleteWorkTimePort {
+public interface DeleteWorkTimeUseCasePort {
 
   /**
    * Deletes a work time entry.

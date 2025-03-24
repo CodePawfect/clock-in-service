@@ -3,7 +3,7 @@ package github.codepawfect.clockinservice.domain.worktime.ports.in;
 import java.time.LocalDate;
 
 /** CreateWorkTimePort is a port for creating work time entries. */
-public interface CreateWorkTimePort {
+public interface CreateWorkTimeUseCasePort {
 
   /**
    * Creates a new work time entry.

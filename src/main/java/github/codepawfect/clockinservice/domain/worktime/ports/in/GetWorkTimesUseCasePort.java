@@ -7,7 +7,7 @@ import java.util.List;
  * ReadWorkTimesPort is a port that defines the method to read work times for a user in a specific
  * calender week and year.
  */
-public interface GetWorkTimesPort {
+public interface GetWorkTimesUseCasePort {
 
   /**
    * Reads work times for a user in a specific calender week and year.

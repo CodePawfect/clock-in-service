@@ -2,9 +2,9 @@ package github.codepawfect.clockinservice.domain.worktime.service;
 
 import github.codepawfect.clockinservice.common.DateUtils;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesPort;
+import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimeUseCasePort;
+import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimeUseCasePort;
+import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesUseCasePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.ReadWorkTimePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.WriteWorkTimePort;
 import java.time.LocalDate;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 
 /** WorkTimeService is a service for handling work time operations. */
 @Service
-public class WorkTimeService implements CreateWorkTimePort, GetWorkTimesPort, DeleteWorkTimePort {
+public class WorkTimeService implements CreateWorkTimeUseCasePort, GetWorkTimesUseCasePort, DeleteWorkTimeUseCasePort {
 
   private final WriteWorkTimePort writeWorkTimePort;
   private final ReadWorkTimePort readWorkTimePort;

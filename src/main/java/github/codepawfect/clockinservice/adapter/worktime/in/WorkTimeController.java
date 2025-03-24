@@ -3,10 +3,12 @@ package github.codepawfect.clockinservice.adapter.worktime.in;
 import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.CreateWorkTimeRequest;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.GetWorkTimesResponse;
+import github.codepawfect.clockinservice.adapter.worktime.in.model.WorkTimeDto;
+import github.codepawfect.clockinservice.adapter.worktime.in.model.mapper.WorkTimeMapper;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesPort;
+import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimeUseCasePort;
+import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimeUseCasePort;
+import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesUseCasePort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -16,10 +18,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import java.net.URI;
 import java.util.List;
-
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -30,20 +31,23 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Tag(name = "Work Time", description = "Work time management API")
 public class WorkTimeController {
 
-  private final CreateWorkTimePort createWorkTimePort;
-  private final GetWorkTimesPort getWorkTimesPort;
-  private final DeleteWorkTimePort deleteWorkTimePort;
+  private final CreateWorkTimeUseCasePort createWorkTimeUseCasePort;
+  private final GetWorkTimesUseCasePort getWorkTimesUseCasePort;
+  private final DeleteWorkTimeUseCasePort deleteWorkTimeUseCasePort;
   private final JwtUtils jwtUtils;
+  private final WorkTimeMapper workTimeMapper;
 
   public WorkTimeController(
-      CreateWorkTimePort createWorkTimePort,
-      GetWorkTimesPort getWorkTimesPort,
-      DeleteWorkTimePort deleteWorkTimePort,
-      JwtUtils jwtUtils) {
-    this.createWorkTimePort = createWorkTimePort;
-    this.getWorkTimesPort = getWorkTimesPort;
-    this.deleteWorkTimePort = deleteWorkTimePort;
+      CreateWorkTimeUseCasePort createWorkTimeUseCasePort,
+      GetWorkTimesUseCasePort getWorkTimesUseCasePort,
+      DeleteWorkTimeUseCasePort deleteWorkTimeUseCasePort,
+      JwtUtils jwtUtils,
+      WorkTimeMapper workTimeMapper) {
+    this.createWorkTimeUseCasePort = createWorkTimeUseCasePort;
+    this.getWorkTimesUseCasePort = getWorkTimesUseCasePort;
+    this.deleteWorkTimeUseCasePort = deleteWorkTimeUseCasePort;
     this.jwtUtils = jwtUtils;
+    this.workTimeMapper = workTimeMapper;
   }
 
   /**
@@ -66,7 +70,7 @@ public class WorkTimeController {
       @RequestBody @Valid CreateWorkTimeRequest createWorkTimeRequest, HttpServletRequest request) {
     String username = jwtUtils.extractUsername(jwtUtils.getJwtFromCookies(request));
     String workTimeId =
-        createWorkTimePort.createWorkTime(
+        createWorkTimeUseCasePort.createWorkTime(
             username,
             createWorkTimeRequest.date(),
             createWorkTimeRequest.hoursWorked(),
@@ -113,8 +117,9 @@ public class WorkTimeController {
       HttpServletRequest request) {
     String username = jwtUtils.extractUsername(jwtUtils.getJwtFromCookies(request));
 
-    List<WorkTime> workTimes = getWorkTimesPort.getWorkTimes(username, calenderWeek, year);
-    GetWorkTimesResponse getWorkTimesResponse = new GetWorkTimesResponse(workTimes);
+    List<WorkTime> workTimes = getWorkTimesUseCasePort.getWorkTimes(username, calenderWeek, year);
+    List<WorkTimeDto> workTimeDtos = workTimeMapper.toDtos(workTimes);
+    GetWorkTimesResponse getWorkTimesResponse = new GetWorkTimesResponse(workTimeDtos);
 
     return ResponseEntity.ok(getWorkTimesResponse);
   }
@@ -143,7 +148,7 @@ public class WorkTimeController {
           @NotBlank
           @Valid
           String id) {
-    deleteWorkTimePort.deleteWorkTime(id);
+    deleteWorkTimeUseCasePort.deleteWorkTime(id);
 
     return ResponseEntity.noContent().build();
   }
