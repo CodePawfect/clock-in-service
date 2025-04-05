@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.adapter.user.out.repository;
+package github.codepawfect.clockinservice.adapter.auth.out.repository;
 
-import github.codepawfect.clockinservice.adapter.user.out.model.UserDocument;
+import github.codepawfect.clockinservice.adapter.auth.out.model.UserDocument;
 import java.util.Optional;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

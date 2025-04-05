@@ -2,6 +2,9 @@ package github.codepawfect.clockinservice.common;
 
 import java.time.LocalDateTime;
 import java.util.List;
+
+import github.codepawfect.clockinservice.adapter.auth.out.service.exception.UserAlreadyExistsException;
+import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -41,9 +44,37 @@ public class GlobalExceptionHandler {
     ErrorResponse errorResponse =
         new ErrorResponse(
             HttpStatus.UNAUTHORIZED.value(),
-            "Benutzername oder Passwort ungültig",
+            "Username or password is incorrect",
             ex.getMessage(),
             LocalDateTime.now());
+    return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
+  }
+
+  /**
+   * Handles a user already exists exception.
+   *
+   * @param ex the exception to handle.
+   * @return a response entity with an error response.
+   */
+  @ExceptionHandler(UserAlreadyExistsException.class)
+  public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+    ErrorResponse errorResponse =
+            new ErrorResponse(
+                    HttpStatus.CONFLICT.value(),
+                    "Username already exists",
+                    ex.getMessage(),
+                    LocalDateTime.now());
+    return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+  }
+
+  @ExceptionHandler(JwtException.class)
+  public ResponseEntity<ErrorResponse> handleJwtException(JwtException ex) {
+    ErrorResponse errorResponse =
+            new ErrorResponse(
+                    HttpStatus.UNAUTHORIZED.value(),
+                    "Authentication token is invalid",
+                    ex.getMessage(),
+                    LocalDateTime.now());
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
   }
 
@@ -64,7 +95,7 @@ public class GlobalExceptionHandler {
     ErrorResponse errorResponse =
         new ErrorResponse(
             HttpStatus.BAD_REQUEST.value(),
-            "Validation failed",
+            "Method argument validation failed",
             validationErrors,
             LocalDateTime.now());
     return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);

@@ -1,10 +1,10 @@
-package github.codepawfect.clockinservice.adapter.user.in.model;
+package github.codepawfect.clockinservice.adapter.auth.in.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 
-/** LoginRequest is a model class that represents the request body for the login endpoint. */
-public record LoginRequest(
+/** RegisterRequest is a model class that represents the request body for the register endpoint. */
+public record RegisterRequest(
     @Schema(
             description = "Username of the user",
             example = "john.doe",

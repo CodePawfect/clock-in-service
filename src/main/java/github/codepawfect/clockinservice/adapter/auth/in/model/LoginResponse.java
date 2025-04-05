@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adapter.user.in.model;
+package github.codepawfect.clockinservice.adapter.auth.in.model;
 
 import java.util.List;
 

@@ -1,11 +1,12 @@
-package github.codepawfect.clockinservice.adapter.user.in;
+package github.codepawfect.clockinservice.adapter.auth.in;
 
-import github.codepawfect.clockinservice.adapter.user.in.model.LoginRequest;
-import github.codepawfect.clockinservice.adapter.user.in.model.LoginResponse;
-import github.codepawfect.clockinservice.adapter.user.in.model.RegisterRequest;
-import github.codepawfect.clockinservice.adapter.user.out.service.AuthenticationService;
-import github.codepawfect.clockinservice.adapter.user.out.service.exception.UserAlreadyExistsException;
-import github.codepawfect.clockinservice.adapter.user.out.service.model.AuthenticatedUserInformation;
+import github.codepawfect.clockinservice.adapter.auth.in.model.LoginRequest;
+import github.codepawfect.clockinservice.adapter.auth.in.model.LoginResponse;
+import github.codepawfect.clockinservice.adapter.auth.in.model.MeResponse;
+import github.codepawfect.clockinservice.adapter.auth.in.model.RegisterRequest;
+import github.codepawfect.clockinservice.adapter.auth.out.service.AuthenticationService;
+import github.codepawfect.clockinservice.adapter.auth.out.service.model.AuthenticatedUserInformation;
+import io.micrometer.common.util.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,10 +16,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /** Controller for handling authentication requests. */
 @RestController
@@ -50,7 +48,7 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
     AuthenticatedUserInformation response =
-        authService.authenticate(loginRequest.username(), loginRequest.password());
+        authService.login(loginRequest.username(), loginRequest.password());
 
     return ResponseEntity.ok()
         .header(HttpHeaders.SET_COOKIE, response.cookie().toString())
@@ -74,13 +72,9 @@ public class AuthController {
       })
   @PostMapping("/register")
   public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest) {
-    try {
       authService.register(registerRequest.username(), registerRequest.password());
 
       return ResponseEntity.status(HttpStatus.CREATED).build();
-    } catch (UserAlreadyExistsException e) {
-      return ResponseEntity.status(HttpStatus.CONFLICT).build();
-    }
   }
 
   /**
@@ -102,5 +96,32 @@ public class AuthController {
     ResponseCookie cookie = authService.logout();
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
+  }
+
+  @Operation(
+      summary = "Information about the current authenticated user",
+      description = "Get the username and roles for the current authenticated user",
+      responses = {
+        @ApiResponse(
+            responseCode = "200",
+            description = "User is authenticated",
+            content = @Content(schema = @Schema(implementation = MeResponse.class))),
+        @ApiResponse(responseCode = "401", description = "Unauthorized")
+      })
+  @GetMapping("/me")
+  public ResponseEntity<MeResponse> me(
+      @CookieValue(name = "jwt-token", required = false) String jwtToken) {
+    if (StringUtils.isBlank(jwtToken)) {
+      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+    }
+
+    AuthenticatedUserInformation authenticatedUserInformation = authService.authenticate(jwtToken);
+    MeResponse meResponse =
+        new MeResponse(
+            authenticatedUserInformation.username(), authenticatedUserInformation.roles());
+
+    return ResponseEntity.ok()
+        .header(HttpHeaders.SET_COOKIE, authenticatedUserInformation.cookie().toString())
+        .body(meResponse);
   }
 }
