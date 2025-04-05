@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adapter.auth.out.service.model;
+package github.codepawfect.clockinservice.adapter.auth.model;
 
 import java.util.List;
 import org.springframework.http.ResponseCookie;

@@ -1,8 +1,8 @@
 package github.codepawfect.clockinservice.application.service;
 
-import github.codepawfect.clockinservice.adapter.auth.out.service.exception.UserAlreadyExistsException;
-import github.codepawfect.clockinservice.adapter.auth.out.service.model.AuthenticatedUserInformation;
-import github.codepawfect.clockinservice.adapter.auth.out.service.model.CustomUserDetails;
+import github.codepawfect.clockinservice.adapter.auth.exception.UserAlreadyExistsException;
+import github.codepawfect.clockinservice.adapter.auth.model.AuthenticatedUserInformation;
+import github.codepawfect.clockinservice.adapter.auth.model.CustomUserDetails;
 import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import github.codepawfect.clockinservice.domain.user.model.NewUser;
 import github.codepawfect.clockinservice.domain.user.model.User;
