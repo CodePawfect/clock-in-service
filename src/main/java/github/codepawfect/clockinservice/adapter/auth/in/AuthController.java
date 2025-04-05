@@ -6,16 +6,18 @@ import github.codepawfect.clockinservice.adapter.auth.in.model.MeResponse;
 import github.codepawfect.clockinservice.adapter.auth.in.model.RegisterRequest;
 import github.codepawfect.clockinservice.adapter.auth.out.service.AuthenticationService;
 import github.codepawfect.clockinservice.adapter.auth.out.service.model.AuthenticatedUserInformation;
-import io.micrometer.common.util.StringUtils;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
+import java.util.List;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 
 /** Controller for handling authentication requests. */
@@ -109,19 +111,14 @@ public class AuthController {
         @ApiResponse(responseCode = "401", description = "Unauthorized")
       })
   @GetMapping("/me")
-  public ResponseEntity<MeResponse> me(
-      @CookieValue(name = "jwt-token", required = false) String jwtToken) {
-    if (StringUtils.isBlank(jwtToken)) {
-      return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-    }
+  public ResponseEntity<MeResponse> me(Authentication authentication) {
 
-    AuthenticatedUserInformation authenticatedUserInformation = authService.authenticate(jwtToken);
-    MeResponse meResponse =
-        new MeResponse(
-            authenticatedUserInformation.username(), authenticatedUserInformation.roles());
+    String username = authentication.getName();
+    List<String> roles =
+        authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList();
 
-    return ResponseEntity.ok()
-        .header(HttpHeaders.SET_COOKIE, authenticatedUserInformation.cookie().toString())
-        .body(meResponse);
+    MeResponse meResponse = new MeResponse(username, roles);
+
+    return ResponseEntity.ok(meResponse);
   }
 }
