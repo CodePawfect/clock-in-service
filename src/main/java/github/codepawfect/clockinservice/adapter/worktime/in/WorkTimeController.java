@@ -14,12 +14,12 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -34,7 +34,6 @@ public class WorkTimeController {
   private final CreateWorkTimeUseCasePort createWorkTimeUseCasePort;
   private final GetWorkTimesUseCasePort getWorkTimesUseCasePort;
   private final DeleteWorkTimeUseCasePort deleteWorkTimeUseCasePort;
-  private final JwtUtils jwtUtils;
   private final WorkTimeMapper workTimeMapper;
 
   public WorkTimeController(
@@ -46,7 +45,6 @@ public class WorkTimeController {
     this.createWorkTimeUseCasePort = createWorkTimeUseCasePort;
     this.getWorkTimesUseCasePort = getWorkTimesUseCasePort;
     this.deleteWorkTimeUseCasePort = deleteWorkTimeUseCasePort;
-    this.jwtUtils = jwtUtils;
     this.workTimeMapper = workTimeMapper;
   }
 
@@ -67,8 +65,8 @@ public class WorkTimeController {
         @ApiResponse(responseCode = "400", description = "Invalid input data")
       })
   public ResponseEntity<URI> createWorkTime(
-      @RequestBody @Valid CreateWorkTimeRequest createWorkTimeRequest, HttpServletRequest request) {
-    String username = jwtUtils.extractUsername(jwtUtils.getJwtFromCookies(request));
+      @RequestBody @Valid CreateWorkTimeRequest createWorkTimeRequest, Principal principal) {
+    String username = principal.getName();
     String workTimeId =
         createWorkTimeUseCasePort.createWorkTime(
             username,
@@ -114,8 +112,8 @@ public class WorkTimeController {
       @Schema(description = "Year", example = "2025", requiredMode = Schema.RequiredMode.REQUIRED)
           @PathVariable
           int year,
-      HttpServletRequest request) {
-    String username = jwtUtils.extractUsername(jwtUtils.getJwtFromCookies(request));
+      Principal principal) {
+    String username = principal.getName();
 
     List<WorkTime> workTimes = getWorkTimesUseCasePort.getWorkTimes(username, calenderWeek, year);
     List<WorkTimeDto> workTimeDtos = workTimeMapper.toDtos(workTimes);
