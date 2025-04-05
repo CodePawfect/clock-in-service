@@ -58,6 +58,11 @@ public class SecurityConfig {
     return authConfig.getAuthenticationManager();
   }
 
+  /**
+   * Configures CORS (Cross-Origin Resource Sharing) settings for the application.
+   *
+   * @return the CORS configuration source
+   */
   @Bean
   public CorsConfigurationSource corsConfigurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();

@@ -2,10 +2,9 @@ package github.codepawfect.clockinservice.adapter.worktime.in.model.mapper;
 
 import github.codepawfect.clockinservice.adapter.worktime.in.model.WorkTimeDto;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
+import java.util.List;
 import org.mapstruct.Mapper;
 import org.mapstruct.factory.Mappers;
-
-import java.util.List;
 
 /**
  * WorkTimeMapper is a mapper interface that converts between WorkTime domain model and WorkTimeDto.

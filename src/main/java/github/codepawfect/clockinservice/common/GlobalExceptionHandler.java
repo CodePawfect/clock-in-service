@@ -56,24 +56,25 @@ public class GlobalExceptionHandler {
    * @return a response entity with an error response.
    */
   @ExceptionHandler(UserAlreadyExistsException.class)
-  public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+  public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(
+      UserAlreadyExistsException ex) {
     ErrorResponse errorResponse =
-            new ErrorResponse(
-                    HttpStatus.CONFLICT.value(),
-                    "Username already exists",
-                    ex.getMessage(),
-                    LocalDateTime.now());
+        new ErrorResponse(
+            HttpStatus.CONFLICT.value(),
+            "Username already exists",
+            ex.getMessage(),
+            LocalDateTime.now());
     return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
   }
 
   @ExceptionHandler(JwtException.class)
   public ResponseEntity<ErrorResponse> handleJwtException(JwtException ex) {
     ErrorResponse errorResponse =
-            new ErrorResponse(
-                    HttpStatus.UNAUTHORIZED.value(),
-                    "Authentication token is invalid",
-                    ex.getMessage(),
-                    LocalDateTime.now());
+        new ErrorResponse(
+            HttpStatus.UNAUTHORIZED.value(),
+            "Authentication token is invalid",
+            ex.getMessage(),
+            LocalDateTime.now());
     return new ResponseEntity<>(errorResponse, HttpStatus.UNAUTHORIZED);
   }
 

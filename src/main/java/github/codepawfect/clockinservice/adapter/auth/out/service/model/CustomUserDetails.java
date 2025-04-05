@@ -1,12 +1,12 @@
 package github.codepawfect.clockinservice.adapter.auth.out.service.model;
 
 import github.codepawfect.clockinservice.domain.user.model.User;
+import java.util.Collection;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-
+/** CustomUserDetails is a model class that wraps a User object and implements the UserDetails */
 public class CustomUserDetails implements UserDetails {
   private final User user;
 
