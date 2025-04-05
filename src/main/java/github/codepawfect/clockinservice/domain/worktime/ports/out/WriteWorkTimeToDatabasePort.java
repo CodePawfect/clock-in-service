@@ -2,8 +2,8 @@ package github.codepawfect.clockinservice.domain.worktime.ports.out;
 
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 
-/** PersistWorkTimePort is a port for persisting work time entries. */
-public interface WriteWorkTimePort {
+/** WriteWorkTimeToDatabasePort is a port for persisting work time entries. */
+public interface WriteWorkTimeToDatabasePort {
 
   /**
    * Persists a new work time entry.

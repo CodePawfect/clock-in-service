@@ -5,8 +5,8 @@ import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimeUseCasePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimeUseCasePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesUseCasePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.out.ReadWorkTimePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.out.WriteWorkTimePort;
+import github.codepawfect.clockinservice.domain.worktime.ports.out.ReadWorkTimeFromDatabasePort;
+import github.codepawfect.clockinservice.domain.worktime.ports.out.WriteWorkTimeToDatabasePort;
 import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -15,18 +15,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class WorkTimeService implements CreateWorkTimeUseCasePort, GetWorkTimesUseCasePort, DeleteWorkTimeUseCasePort {
 
-  private final WriteWorkTimePort writeWorkTimePort;
-  private final ReadWorkTimePort readWorkTimePort;
+  private final WriteWorkTimeToDatabasePort writeWorkTimeToDatabasePort;
+  private final ReadWorkTimeFromDatabasePort readWorkTimeFromDatabasePort;
 
-  public WorkTimeService(WriteWorkTimePort writeWorkTimePort, ReadWorkTimePort readWorkTimePort) {
-    this.writeWorkTimePort = writeWorkTimePort;
-    this.readWorkTimePort = readWorkTimePort;
+  public WorkTimeService(WriteWorkTimeToDatabasePort writeWorkTimeToDatabasePort, ReadWorkTimeFromDatabasePort readWorkTimeFromDatabasePort) {
+    this.writeWorkTimeToDatabasePort = writeWorkTimeToDatabasePort;
+    this.readWorkTimeFromDatabasePort = readWorkTimeFromDatabasePort;
   }
 
   /** {@inheritDoc} */
   @Override
   public String createWorkTime(String username, LocalDate date, Integer hoursWorked, String note) {
-    return writeWorkTimePort.save(
+    return writeWorkTimeToDatabasePort.save(
         new WorkTime(
             null,
             username,
@@ -40,12 +40,12 @@ public class WorkTimeService implements CreateWorkTimeUseCasePort, GetWorkTimesU
   /** {@inheritDoc} */
   @Override
   public List<WorkTime> getWorkTimes(String username, int calenderWeek, int year) {
-    return readWorkTimePort.find(username, calenderWeek, year);
+    return readWorkTimeFromDatabasePort.find(username, calenderWeek, year);
   }
 
   /** {@inheritDoc} */
   @Override
   public void deleteWorkTime(String id) {
-    writeWorkTimePort.delete(id);
+    writeWorkTimeToDatabasePort.delete(id);
   }
 }
