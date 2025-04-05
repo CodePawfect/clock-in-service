@@ -4,7 +4,7 @@ import github.codepawfect.clockinservice.adapter.auth.in.model.LoginRequest;
 import github.codepawfect.clockinservice.adapter.auth.in.model.LoginResponse;
 import github.codepawfect.clockinservice.adapter.auth.in.model.MeResponse;
 import github.codepawfect.clockinservice.adapter.auth.in.model.RegisterRequest;
-import github.codepawfect.clockinservice.adapter.auth.out.service.AuthenticationService;
+import github.codepawfect.clockinservice.application.service.AuthenticationService;
 import github.codepawfect.clockinservice.adapter.auth.out.service.model.AuthenticatedUserInformation;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adapter.auth.out.service;
+package github.codepawfect.clockinservice.application.service;
 
 import github.codepawfect.clockinservice.adapter.auth.out.service.exception.UserAlreadyExistsException;
 import github.codepawfect.clockinservice.adapter.auth.out.service.model.AuthenticatedUserInformation;
@@ -21,7 +21,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-/** AuthenticationService is a service class that handles authentication and logout operations. */
+/** AuthenticationService serves as workflow coordinator related to authentication */
 @Service
 public class AuthenticationService {
 
