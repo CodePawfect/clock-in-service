@@ -177,6 +177,7 @@ public class JwtUtils {
    */
   public ResponseCookie generateJwtCookie(UserDetails userDetails) {
     String jwt = generateToken(userDetails);
+
     return ResponseCookie.from(jwtProperties.getCookieName(), jwt)
         .path("/")
         .maxAge(24 * 60 * 60) // 1 day in seconds

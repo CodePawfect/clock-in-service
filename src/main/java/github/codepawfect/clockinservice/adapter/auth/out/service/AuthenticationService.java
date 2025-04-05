@@ -1,10 +1,13 @@
 package github.codepawfect.clockinservice.adapter.auth.out.service;
 
-import github.codepawfect.clockinservice.adapter.auth.out.model.UserDocument;
-import github.codepawfect.clockinservice.adapter.auth.out.repository.UserRepository;
 import github.codepawfect.clockinservice.adapter.auth.out.service.exception.UserAlreadyExistsException;
 import github.codepawfect.clockinservice.adapter.auth.out.service.model.AuthenticatedUserInformation;
+import github.codepawfect.clockinservice.adapter.auth.out.service.model.CustomUserDetails;
 import github.codepawfect.clockinservice.adapter.common.JwtUtils;
+import github.codepawfect.clockinservice.domain.user.model.NewUser;
+import github.codepawfect.clockinservice.domain.user.model.User;
+import github.codepawfect.clockinservice.domain.user.ports.in.CreateUserPort;
+import github.codepawfect.clockinservice.domain.user.ports.in.GetUserPort;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -15,7 +18,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -25,18 +27,21 @@ public class AuthenticationService {
 
   private final AuthenticationManager authenticationManager;
   private final JwtUtils jwtUtils;
-  private final UserRepository userRepository;
   private final PasswordEncoder passwordEncoder;
+  private final GetUserPort getUserPort;
+  private final CreateUserPort createUserPort;
 
   public AuthenticationService(
       AuthenticationManager authenticationManager,
       JwtUtils jwtUtils,
-      UserRepository userRepository,
-      PasswordEncoder passwordEncoder) {
+      PasswordEncoder passwordEncoder,
+      GetUserPort getUserPort,
+      CreateUserPort createUserPort) {
     this.authenticationManager = authenticationManager;
     this.jwtUtils = jwtUtils;
-    this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.getUserPort = getUserPort;
+    this.createUserPort = createUserPort;
   }
 
   /**
@@ -54,6 +59,8 @@ public class AuthenticationService {
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+
+    // TODO: roles should be part of the jwt payload -add them to the jwt-
     ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
     List<String> roles =
@@ -69,18 +76,12 @@ public class AuthenticationService {
    *
    * @param username the username
    * @param password the password
-   * @throws UserAlreadyExistsException if a user with the given username or email already exists
    */
   public void register(String username, String password) throws UserAlreadyExistsException {
-    if (userRepository.existsByUsername(username)) {
-      throw new UserAlreadyExistsException("Username is already taken");
-    }
+    NewUser newUser =
+        new NewUser(username, passwordEncoder.encode(password), Collections.singletonList("USER"));
 
-    UserDocument user =
-        new UserDocument(
-            null, username, passwordEncoder.encode(password), Collections.singletonList("USER"));
-
-    userRepository.save(user);
+    createUserPort.createUser(newUser);
   }
 
   /**
@@ -100,13 +101,11 @@ public class AuthenticationService {
    */
   public AuthenticatedUserInformation authenticate(String token) {
     String username = jwtUtils.getUsernameByToken(token);
+    User user = getUserPort.getUserByUsername(username);
 
-    UserDocument userDocument =
-        userRepository
-            .findByUsername(username)
-            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    UserDetails userDetails = new CustomUserDetails(user);
 
     return new AuthenticatedUserInformation(
-        userDocument.username(), userDocument.roles(), jwtUtils.generateJwtCookie(userDocument));
+        user.username(), user.roles(), jwtUtils.generateJwtCookie(userDetails));
   }
 }
