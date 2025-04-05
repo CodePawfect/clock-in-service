@@ -1,6 +1,5 @@
 package github.codepawfect.clockinservice.adapter.worktime.in.model;
 
-import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import java.util.List;
 
 /**

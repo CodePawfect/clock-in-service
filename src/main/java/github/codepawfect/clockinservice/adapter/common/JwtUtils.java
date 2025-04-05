@@ -157,7 +157,7 @@ public class JwtUtils {
    * @param request the HTTP request
    * @return the JWT token value, or null if not found
    */
-   public String getJwtFromCookies(HttpServletRequest request) {
+  public String getJwtFromCookies(HttpServletRequest request) {
     Cookie[] cookies = request.getCookies();
     if (cookies != null) {
       for (Cookie cookie : cookies) {

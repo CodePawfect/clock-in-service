@@ -6,8 +6,8 @@ import github.codepawfect.clockinservice.adapter.auth.out.service.model.CustomUs
 import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import github.codepawfect.clockinservice.domain.user.model.NewUser;
 import github.codepawfect.clockinservice.domain.user.model.User;
-import github.codepawfect.clockinservice.domain.user.ports.in.CreateUserPort;
-import github.codepawfect.clockinservice.domain.user.ports.in.GetUserPort;
+import github.codepawfect.clockinservice.domain.user.ports.in.CreateUserUseCasePort;
+import github.codepawfect.clockinservice.domain.user.ports.in.GetUserUseCasePort;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,20 +28,20 @@ public class AuthenticationService {
   private final AuthenticationManager authenticationManager;
   private final JwtUtils jwtUtils;
   private final PasswordEncoder passwordEncoder;
-  private final GetUserPort getUserPort;
-  private final CreateUserPort createUserPort;
+  private final GetUserUseCasePort getUserUseCasePort;
+  private final CreateUserUseCasePort createUserUseCasePort;
 
   public AuthenticationService(
       AuthenticationManager authenticationManager,
       JwtUtils jwtUtils,
       PasswordEncoder passwordEncoder,
-      GetUserPort getUserPort,
-      CreateUserPort createUserPort) {
+      GetUserUseCasePort getUserUseCasePort,
+      CreateUserUseCasePort createUserUseCasePort) {
     this.authenticationManager = authenticationManager;
     this.jwtUtils = jwtUtils;
     this.passwordEncoder = passwordEncoder;
-    this.getUserPort = getUserPort;
-    this.createUserPort = createUserPort;
+    this.getUserUseCasePort = getUserUseCasePort;
+    this.createUserUseCasePort = createUserUseCasePort;
   }
 
   /**
@@ -81,7 +81,7 @@ public class AuthenticationService {
     NewUser newUser =
         new NewUser(username, passwordEncoder.encode(password), Collections.singletonList("USER"));
 
-    createUserPort.createUser(newUser);
+    createUserUseCasePort.createUser(newUser);
   }
 
   /**
@@ -101,7 +101,7 @@ public class AuthenticationService {
    */
   public AuthenticatedUserInformation authenticate(String token) {
     String username = jwtUtils.getUsernameByToken(token);
-    User user = getUserPort.getUserByUsername(username);
+    User user = getUserUseCasePort.getUserByUsername(username);
 
     UserDetails userDetails = new CustomUserDetails(user);
 

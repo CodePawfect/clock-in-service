@@ -13,37 +13,37 @@ import java.util.List;
  */
 @Mapper(componentModel = "spring")
 public interface WorkTimeMapper {
-    WorkTimeMapper INSTANCE = Mappers.getMapper(WorkTimeMapper.class);
+  WorkTimeMapper INSTANCE = Mappers.getMapper(WorkTimeMapper.class);
 
-    /**
-     * Converts a WorkTime domain model to a WorkTimeDto.
-     *
-     * @param workTime the WorkTime domain model
-     * @return the WorkTimeDto
-     */
-    WorkTimeDto toDto(WorkTime workTime);
+  /**
+   * Converts a WorkTime domain model to a WorkTimeDto.
+   *
+   * @param workTime the WorkTime domain model
+   * @return the WorkTimeDto
+   */
+  WorkTimeDto toDto(WorkTime workTime);
 
-    /**
-     * Converts a WorkTimeDto to a WorkTime domain model.
-     *
-     * @param workTimeDto the WorkTimeDto
-     * @return the WorkTime domain model
-     */
-    WorkTime toDomainModel(WorkTimeDto workTimeDto);
+  /**
+   * Converts a WorkTimeDto to a WorkTime domain model.
+   *
+   * @param workTimeDto the WorkTimeDto
+   * @return the WorkTime domain model
+   */
+  WorkTime toDomainModel(WorkTimeDto workTimeDto);
 
-    /**
-     * Converts a list of WorkTime domain models to a list of WorkTimeDto.
-     *
-     * @param workTimes the list of WorkTime domain models
-     * @return the list of WorkTimeDto
-     */
-    List<WorkTimeDto> toDtos(List<WorkTime> workTimes);
+  /**
+   * Converts a list of WorkTime domain models to a list of WorkTimeDto.
+   *
+   * @param workTimes the list of WorkTime domain models
+   * @return the list of WorkTimeDto
+   */
+  List<WorkTimeDto> toDtos(List<WorkTime> workTimes);
 
-    /**
-     * Converts a list of WorkTimeDto to a list of WorkTime domain models.
-     *
-     * @param workTimes the list of WorkTimeDto
-     * @return the list of WorkTime domain models
-     */
-    List<WorkTime> toDomainModels(List<WorkTimeDto> workTimes);
+  /**
+   * Converts a list of WorkTimeDto to a list of WorkTime domain models.
+   *
+   * @param workTimes the list of WorkTimeDto
+   * @return the list of WorkTime domain models
+   */
+  List<WorkTime> toDomainModels(List<WorkTimeDto> workTimes);
 }

@@ -7,39 +7,38 @@ import github.codepawfect.clockinservice.domain.user.ports.out.ReadUserFromDatab
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
-/**
- * ReadUserFromDatabaseAdapter is an adapter for read operations on users.
- */
+/** ReadUserFromDatabaseAdapter is an adapter for read operations on users. */
 @Component
 public class ReadUserFromDatabaseAdapter implements ReadUserFromDatabasePort {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public ReadUserFromDatabaseAdapter(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  public ReadUserFromDatabaseAdapter(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public User findByUsername(String username) {
+  /** {@inheritDoc} */
+  @Override
+  public User findByUsername(String username) {
     return userRepository
         .findByUsername(username)
         .map(UserDocument::toDomain)
-        .orElseThrow(() -> new UsernameNotFoundException("User not found with username: " + username));
-    }
+        .orElseThrow(
+            () -> new UsernameNotFoundException("User not found with username: " + username));
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public User findById(String id) {
-       return userRepository
+  /** {@inheritDoc} */
+  @Override
+  public User findById(String id) {
+    return userRepository
         .findById(id)
         .map(UserDocument::toDomain)
         .orElseThrow(() -> new UsernameNotFoundException("User not found with id: " + id));
-    }
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public boolean existsByUsername(String username) {
-        return userRepository.existsByUsername(username);
-    }
+  /** {@inheritDoc} */
+  @Override
+  public boolean existsByUsername(String username) {
+    return userRepository.existsByUsername(username);
+  }
 }

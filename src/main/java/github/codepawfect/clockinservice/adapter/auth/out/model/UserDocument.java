@@ -1,11 +1,10 @@
 package github.codepawfect.clockinservice.adapter.auth.out.model;
 
+import github.codepawfect.clockinservice.domain.user.model.NewUser;
+import github.codepawfect.clockinservice.domain.user.model.User;
 import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import github.codepawfect.clockinservice.domain.user.model.NewUser;
-import github.codepawfect.clockinservice.domain.user.model.User;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,10 +1,9 @@
 package github.codepawfect.clockinservice.common;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
 import github.codepawfect.clockinservice.adapter.auth.out.service.exception.UserAlreadyExistsException;
 import io.jsonwebtoken.JwtException;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;

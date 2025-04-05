@@ -7,9 +7,7 @@ import github.codepawfect.clockinservice.domain.worktime.ports.out.ReadWorkTimeF
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/**
- * ReadWorkTimeFromDatabaseAdapter is an adapter for read operations on work time entries.
- */
+/** ReadWorkTimeFromDatabaseAdapter is an adapter for read operations on work time entries. */
 @Component
 public class ReadWorkTimeFromDatabaseAdapter implements ReadWorkTimeFromDatabasePort {
 

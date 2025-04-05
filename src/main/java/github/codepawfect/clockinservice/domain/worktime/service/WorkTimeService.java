@@ -13,12 +13,15 @@ import org.springframework.stereotype.Service;
 
 /** WorkTimeService is a service for handling work time operations. */
 @Service
-public class WorkTimeService implements CreateWorkTimeUseCasePort, GetWorkTimesUseCasePort, DeleteWorkTimeUseCasePort {
+public class WorkTimeService
+    implements CreateWorkTimeUseCasePort, GetWorkTimesUseCasePort, DeleteWorkTimeUseCasePort {
 
   private final WriteWorkTimeToDatabasePort writeWorkTimeToDatabasePort;
   private final ReadWorkTimeFromDatabasePort readWorkTimeFromDatabasePort;
 
-  public WorkTimeService(WriteWorkTimeToDatabasePort writeWorkTimeToDatabasePort, ReadWorkTimeFromDatabasePort readWorkTimeFromDatabasePort) {
+  public WorkTimeService(
+      WriteWorkTimeToDatabasePort writeWorkTimeToDatabasePort,
+      ReadWorkTimeFromDatabasePort readWorkTimeFromDatabasePort) {
     this.writeWorkTimeToDatabasePort = writeWorkTimeToDatabasePort;
     this.readWorkTimeFromDatabasePort = readWorkTimeFromDatabasePort;
   }

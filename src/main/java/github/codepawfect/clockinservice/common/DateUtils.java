@@ -13,6 +13,6 @@ public class DateUtils {
    * @return the calendar week of the given date
    */
   public static int getCalenderWeek(LocalDate date) {
-   return date.get(WeekFields.ISO.weekOfWeekBasedYear());
+    return date.get(WeekFields.ISO.weekOfWeekBasedYear());
   }
 }

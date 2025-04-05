@@ -6,23 +6,21 @@ import github.codepawfect.clockinservice.domain.user.model.NewUser;
 import github.codepawfect.clockinservice.domain.user.ports.out.WriteUserToDatabasePort;
 import org.springframework.stereotype.Component;
 
-/**
- * WriteUserToDatabaseAdapter is an adapter for write operations on users.
- */
+/** WriteUserToDatabaseAdapter is an adapter for write operations on users. */
 @Component
 public class WriteUserToDatabaseAdapter implements WriteUserToDatabasePort {
 
-    private final UserRepository userRepository;
+  private final UserRepository userRepository;
 
-    public WriteUserToDatabaseAdapter(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+  public WriteUserToDatabaseAdapter(UserRepository userRepository) {
+    this.userRepository = userRepository;
+  }
 
-    /** {@inheritDoc} */
-    @Override
-    public void save(NewUser newUser) {
-        UserDocument userDocument = UserDocument.from(newUser);
+  /** {@inheritDoc} */
+  @Override
+  public void save(NewUser newUser) {
+    UserDocument userDocument = UserDocument.from(newUser);
 
-        userRepository.save(userDocument);
-    }
+    userRepository.save(userDocument);
+  }
 }
