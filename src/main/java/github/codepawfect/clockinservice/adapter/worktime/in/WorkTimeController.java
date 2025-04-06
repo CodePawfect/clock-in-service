@@ -1,6 +1,5 @@
 package github.codepawfect.clockinservice.adapter.worktime.in;
 
-import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.CreateWorkTimeRequest;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.GetWorkTimesResponse;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.WorkTimeDto;
@@ -40,7 +39,6 @@ public class WorkTimeController {
       CreateWorkTimeUseCasePort createWorkTimeUseCasePort,
       GetWorkTimesUseCasePort getWorkTimesUseCasePort,
       DeleteWorkTimeUseCasePort deleteWorkTimeUseCasePort,
-      JwtUtils jwtUtils,
       WorkTimeMapper workTimeMapper) {
     this.createWorkTimeUseCasePort = createWorkTimeUseCasePort;
     this.getWorkTimesUseCasePort = getWorkTimesUseCasePort;
