@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.application.service;
+package github.codepawfect.clockinservice.application.auth;
 
 import github.codepawfect.clockinservice.adapter.auth.exception.UserAlreadyExistsException;
 import github.codepawfect.clockinservice.adapter.common.JwtUtils;
@@ -16,14 +16,14 @@ import org.springframework.stereotype.Service;
 
 /** AuthenticationService serves as workflow coordinator related to authentication */
 @Service
-public class AuthenticationService {
+public class AuthenticationUseCaseOrchestrator {
 
   private final AuthenticationManager authenticationManager;
   private final JwtUtils jwtUtils;
   private final PasswordEncoder passwordEncoder;
   private final CreateUserUseCasePort createUserUseCasePort;
 
-  public AuthenticationService(
+  public AuthenticationUseCaseOrchestrator(
       AuthenticationManager authenticationManager,
       JwtUtils jwtUtils,
       PasswordEncoder passwordEncoder,

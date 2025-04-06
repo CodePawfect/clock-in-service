@@ -3,7 +3,7 @@ package github.codepawfect.clockinservice.adapter.auth.in;
 import github.codepawfect.clockinservice.adapter.auth.in.model.LoginRequest;
 import github.codepawfect.clockinservice.adapter.auth.in.model.MeResponse;
 import github.codepawfect.clockinservice.adapter.auth.in.model.RegisterRequest;
-import github.codepawfect.clockinservice.application.service.AuthenticationService;
+import github.codepawfect.clockinservice.application.auth.AuthenticationUseCaseOrchestrator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -23,9 +23,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  private final AuthenticationService authService;
+  private final AuthenticationUseCaseOrchestrator authService;
 
-  public AuthController(AuthenticationService authService) {
+  public AuthController(AuthenticationUseCaseOrchestrator authService) {
     this.authService = authService;
   }
 
