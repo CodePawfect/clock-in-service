@@ -1,10 +1,8 @@
 package github.codepawfect.clockinservice.adapter.auth.in;
 
 import github.codepawfect.clockinservice.adapter.auth.in.model.LoginRequest;
-import github.codepawfect.clockinservice.adapter.auth.in.model.LoginResponse;
 import github.codepawfect.clockinservice.adapter.auth.in.model.MeResponse;
 import github.codepawfect.clockinservice.adapter.auth.in.model.RegisterRequest;
-import github.codepawfect.clockinservice.adapter.auth.model.AuthenticatedUserInformation;
 import github.codepawfect.clockinservice.application.service.AuthenticationService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -39,60 +37,38 @@ public class AuthController {
    */
   @Operation(
       summary = "Authenticate a user",
-      description = "Authenticates a user with the given username and password",
+      description =
+          "Authenticates a user with the given username and password and sets the authentication cookie",
       responses = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "User authenticated successfully",
-            content = @Content(schema = @Schema(implementation = LoginResponse.class))),
+        @ApiResponse(responseCode = "200", description = "User authenticated successfully"),
         @ApiResponse(responseCode = "401", description = "Invalid credentials")
       })
   @PostMapping("/login")
-  public ResponseEntity<LoginResponse> login(@RequestBody @Valid LoginRequest loginRequest) {
-    AuthenticatedUserInformation response =
-        authService.login(loginRequest.username(), loginRequest.password());
+  public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest) {
+    ResponseCookie authCookie = authService.login(loginRequest.username(), loginRequest.password());
 
-    return ResponseEntity.ok()
-        .header(HttpHeaders.SET_COOKIE, response.cookie().toString())
-        .body(new LoginResponse(response.username(), response.roles()));
+    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, authCookie.toString()).build();
   }
 
   /**
    * Registers a new user with the given username, password, and email.
    *
    * @param registerRequest the register request
-   * @return the response entity containing a message
    */
   @Operation(
       summary = "Register a user",
-      description = "Registers a user with the given username and password",
-      responses = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "User registered successfully",
-            content = @Content(schema = @Schema(implementation = LoginResponse.class)))
-      })
+      description = "Registers a user with the given username and password")
   @PostMapping("/register")
-  public ResponseEntity<?> register(@RequestBody @Valid RegisterRequest registerRequest) {
+  public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
     authService.register(registerRequest.username(), registerRequest.password());
 
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
 
-  /**
-   * Logs out the currently authenticated user.
-   *
-   * @return the response entity containing the cookie to delete
-   */
+  /** Logs out the currently authenticated user. */
   @Operation(
       summary = "Logout a user",
-      description = "Logs out the currently authenticated user",
-      responses = {
-        @ApiResponse(
-            responseCode = "200",
-            description = "User logged out successfully",
-            content = @Content(schema = @Schema(implementation = LoginResponse.class)))
-      })
+      description = "Logs out the currently authenticated user by invalidating the JWT token")
   @PostMapping("/logout")
   public ResponseEntity<Void> logout() {
     ResponseCookie cookie = authService.logout();
