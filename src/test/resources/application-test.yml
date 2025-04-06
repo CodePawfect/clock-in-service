@@ -1,7 +1,17 @@
-spring:
-  data:
-    mongodb:
-      uri: ${MONGODB_URI:mongodb://admin:admin@localhost:27017/clockin?authSource=admin}
+jwt:
+  secret: DEV_JWT_S3cret_K3y_F0r_Cl0ck1n_4pp_32BytesL0ng!
+  expiration: 86400000
+  cookie-name: jwt-token
+  secured: false
+
+mongock:
+  migration-scan-package: github.codepawfect.clockinservice.migration
+  track-ignored: false
+  runner-type: InitializingBean
+  enabled: true
+  throw-exception-if-cannot-obtain-lock: false
+  migration-repository-name: mongockChangeLog
+  lock-repository-name: mongockLock
 
 admin:
   initial:

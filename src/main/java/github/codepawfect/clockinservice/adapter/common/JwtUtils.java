@@ -40,9 +40,9 @@ public class JwtUtils {
   private String generateToken(UserDetails userDetails) {
     Map<String, Object> claims = new HashMap<>();
     List<String> roles =
-            userDetails.getAuthorities().stream()
-                    .map(GrantedAuthority::getAuthority)
-                    .collect(Collectors.toList());
+        userDetails.getAuthorities().stream()
+            .map(GrantedAuthority::getAuthority)
+            .collect(Collectors.toList());
 
     claims.put("roles", roles);
 
@@ -148,17 +148,6 @@ public class JwtUtils {
   public boolean validateToken(String token) {
     extractUsername(token);
     return !isTokenExpired(token);
-  }
-
-  /**
-   * validates the token and returns the username
-   *
-   * @param token authentication token
-   * @return username if the token is valid, null if the token is expired
-   */
-  public String getUsernameByToken(String token) {
-    String username = extractUsername(token);
-    return !isTokenExpired(token) ? username : null;
   }
 
   /**
