@@ -4,10 +4,8 @@ import github.codepawfect.clockinservice.adapter.worktime.in.model.CreateWorkTim
 import github.codepawfect.clockinservice.adapter.worktime.in.model.GetWorkTimesResponse;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.WorkTimeDto;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.mapper.WorkTimeMapper;
+import github.codepawfect.clockinservice.application.auth.WorkTimeUseCaseOrchestrator;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimeUseCasePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimeUseCasePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesUseCasePort;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -30,19 +28,12 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 @Tag(name = "Work Time", description = "Work time management API")
 public class WorkTimeController {
 
-  private final CreateWorkTimeUseCasePort createWorkTimeUseCasePort;
-  private final GetWorkTimesUseCasePort getWorkTimesUseCasePort;
-  private final DeleteWorkTimeUseCasePort deleteWorkTimeUseCasePort;
+  private final WorkTimeUseCaseOrchestrator workTimeUseCaseOrchestrator;
   private final WorkTimeMapper workTimeMapper;
 
   public WorkTimeController(
-      CreateWorkTimeUseCasePort createWorkTimeUseCasePort,
-      GetWorkTimesUseCasePort getWorkTimesUseCasePort,
-      DeleteWorkTimeUseCasePort deleteWorkTimeUseCasePort,
-      WorkTimeMapper workTimeMapper) {
-    this.createWorkTimeUseCasePort = createWorkTimeUseCasePort;
-    this.getWorkTimesUseCasePort = getWorkTimesUseCasePort;
-    this.deleteWorkTimeUseCasePort = deleteWorkTimeUseCasePort;
+      WorkTimeUseCaseOrchestrator workTimeUseCaseOrchestrator, WorkTimeMapper workTimeMapper) {
+    this.workTimeUseCaseOrchestrator = workTimeUseCaseOrchestrator;
     this.workTimeMapper = workTimeMapper;
   }
 
@@ -66,7 +57,7 @@ public class WorkTimeController {
       @RequestBody @Valid CreateWorkTimeRequest createWorkTimeRequest, Principal principal) {
     String username = principal.getName();
     String workTimeId =
-        createWorkTimeUseCasePort.createWorkTime(
+        workTimeUseCaseOrchestrator.createNewWorkTime(
             username,
             createWorkTimeRequest.date(),
             createWorkTimeRequest.hoursWorked(),
@@ -113,7 +104,8 @@ public class WorkTimeController {
       Principal principal) {
     String username = principal.getName();
 
-    List<WorkTime> workTimes = getWorkTimesUseCasePort.getWorkTimes(username, calenderWeek, year);
+    List<WorkTime> workTimes =
+        workTimeUseCaseOrchestrator.getWorkTimes(username, calenderWeek, year);
     List<WorkTimeDto> workTimeDtos = workTimeMapper.toDtos(workTimes);
     GetWorkTimesResponse getWorkTimesResponse = new GetWorkTimesResponse(workTimeDtos);
 
@@ -144,7 +136,7 @@ public class WorkTimeController {
           @NotBlank
           @Valid
           String id) {
-    deleteWorkTimeUseCasePort.deleteWorkTime(id);
+    workTimeUseCaseOrchestrator.deleteWorkTime(id);
 
     return ResponseEntity.noContent().build();
   }

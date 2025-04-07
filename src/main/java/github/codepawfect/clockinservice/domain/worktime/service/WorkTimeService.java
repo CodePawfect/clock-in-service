@@ -11,7 +11,7 @@ import java.time.LocalDate;
 import java.util.List;
 import org.springframework.stereotype.Service;
 
-/** WorkTimeService is a service for handling work time operations. */
+/** WorkTimeService is the domain service for handling work time operations. */
 @Service
 public class WorkTimeService
     implements CreateWorkTimeUseCasePort, GetWorkTimesUseCasePort, DeleteWorkTimeUseCasePort {

@@ -5,6 +5,7 @@ import github.codepawfect.clockinservice.adapter.auth.out.repository.UserReposit
 import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import io.restassured.RestAssured;
 import io.restassured.http.Cookie;
+import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.testcontainers.containers.MongoDBContainer;
 import org.testcontainers.junit.jupiter.Container;
 import org.testcontainers.junit.jupiter.Testcontainers;
-
-import java.util.List;
 
 /**
  * BaseIntegrationTest is a base class for integration tests. It sets up the test environment,
