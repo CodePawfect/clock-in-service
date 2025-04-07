@@ -4,7 +4,7 @@ import github.codepawfect.clockinservice.adapter.worktime.in.model.CreateWorkTim
 import github.codepawfect.clockinservice.adapter.worktime.in.model.GetWorkTimesResponse;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.WorkTimeDto;
 import github.codepawfect.clockinservice.adapter.worktime.in.model.mapper.WorkTimeMapper;
-import github.codepawfect.clockinservice.application.auth.WorkTimeUseCaseOrchestrator;
+import github.codepawfect.clockinservice.application.worktime.WorkTimeUseCaseOrchestrator;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -50,7 +50,7 @@ public class WorkTimeController {
         @ApiResponse(
             responseCode = "201",
             description = "Work time created successfully",
-            content = @Content(schema = @Schema(implementation = Void.class))),
+            content = @Content(schema = @Schema())),
         @ApiResponse(responseCode = "400", description = "Invalid input data")
       })
   public ResponseEntity<URI> createWorkTime(
@@ -125,7 +125,7 @@ public class WorkTimeController {
         @ApiResponse(
             responseCode = "204",
             description = "Work time deleted successfully",
-            content = @Content(schema = @Schema(implementation = Void.class)))
+            content = @Content(schema = @Schema()))
       })
   public ResponseEntity<Void> deleteWorkTime(
       @Schema(
