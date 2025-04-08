@@ -57,6 +57,8 @@ The project follows a hexagonal (ports and adapters) architecture:
 3. Clone the repository
 4. Build the project: `mvn clean install`
 5. Run the application: `mvn spring-boot:run -Dspring-boot.run.profiles=dev`
+6. The default user for development purposes is admin:admin
+7. HTTP-Requests can be send and tested with the file: [local-http-requests.http](local-http-requests.http)
 
 ## Database
 

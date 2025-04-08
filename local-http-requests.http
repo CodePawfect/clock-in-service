@@ -1,0 +1,28 @@
+POST localhost:8080/api/auth/login
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin"
+}
+
+###
+GET localhost:8080/api/auth/me
+
+###
+POST localhost:8080/api/worktimes
+Content-Type: application/json
+
+{
+  "date": "2025-04-09",
+  "hoursWorked": 8,
+  "note": "Project xyz"
+}
+
+###
+GET localhost:8080/api/worktimes/15/2025
+
+###
+DELETE localhost:8080/api/worktimes/67f57a1b87793f363e87b79c
+
+
