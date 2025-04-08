@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.common;
+package github.codepawfect.clockinservice.adapter.common;
 
 import github.codepawfect.clockinservice.adapter.auth.exception.UserAlreadyExistsException;
 import io.jsonwebtoken.JwtException;

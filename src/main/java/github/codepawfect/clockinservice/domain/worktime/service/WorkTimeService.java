@@ -1,6 +1,6 @@
 package github.codepawfect.clockinservice.domain.worktime.service;
 
-import github.codepawfect.clockinservice.common.DateUtils;
+import github.codepawfect.clockinservice.domain.common.DateUtils;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.ReadWorkTimeFromDatabasePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.WriteWorkTimeToDatabasePort;

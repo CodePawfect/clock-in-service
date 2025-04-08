@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.common;
+package github.codepawfect.clockinservice.domain.common;
 
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
