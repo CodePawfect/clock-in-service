@@ -1,6 +1,6 @@
 package github.codepawfect.clockinservice.domain.user.ports.in;
 
-import github.codepawfect.clockinservice.adapter.auth.exception.UserAlreadyExistsException;
+import github.codepawfect.clockinservice.adaptern.in.common.exception.UserAlreadyExistsException;
 
 /** RegisterUseCasePort is an interface for the use case of registering a new user. */
 public interface RegisterUseCasePort {

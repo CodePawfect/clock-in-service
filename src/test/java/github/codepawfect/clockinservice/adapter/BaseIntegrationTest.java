@@ -1,8 +1,8 @@
 package github.codepawfect.clockinservice.adapter;
 
-import github.codepawfect.clockinservice.adapter.auth.out.model.UserDocument;
-import github.codepawfect.clockinservice.adapter.auth.out.repository.UserRepository;
-import github.codepawfect.clockinservice.adapter.common.JwtUtils;
+import github.codepawfect.clockinservice.adaptern.in.common.JwtUtils;
+import github.codepawfect.clockinservice.adaptern.out.user.out.model.UserDocument;
+import github.codepawfect.clockinservice.adaptern.out.user.out.repository.UserRepository;
 import io.restassured.RestAssured;
 import io.restassured.http.Cookie;
 import java.util.List;
