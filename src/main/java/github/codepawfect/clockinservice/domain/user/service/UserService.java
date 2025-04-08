@@ -23,26 +23,41 @@ public class UserService {
     this.writeUserToDatabasePort = writeUserToDatabasePort;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public void createUser(NewUser newUser) {
+  /**
+   * Creates a new user in the database.
+   *
+   * @param newUser the new user to create
+   */
+  public void create(NewUser newUser) {
     writeUserToDatabasePort.save(newUser);
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public User getUserByUsername(String username) {
+  /**
+   * Retrieves a user by username.
+   *
+   * @param username the username of the user to retrieve
+   * @return the user with the given username
+   */
+  public User getByUsername(String username) {
     return readUserFromDatabasePort.findByUsername(username);
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public User getUserById(String id) {
+  /**
+   * Retrieves a user by ID.
+   *
+   * @param id the ID of the user to retrieve
+   * @return the user with the given ID
+   */
+  public User getById(String id) {
     return readUserFromDatabasePort.findById(id);
   }
 
-  /** {@inheritDoc} */
-  @Override
+  /**
+   * Checks if a user exists by username.
+   *
+   * @param username the username to check
+   * @return true if the user exists, false otherwise
+   */
   public boolean existsByUsername(String username) {
     return readUserFromDatabasePort.existsByUsername(username);
   }

@@ -58,7 +58,7 @@ public class AuthenticationUseCaseOrchestrator
     NewUser newUser =
         new NewUser(username, passwordEncoder.encode(password), Collections.singletonList("USER"));
 
-    userService.createUser(newUser);
+    userService.create(newUser);
   }
 
   /** {@inheritDoc} */
