@@ -1,8 +1,8 @@
-package github.codepawfect.clockinservice.adaptern.in.auth;
+package github.codepawfect.clockinservice.adapter.in.auth;
 
-import github.codepawfect.clockinservice.adaptern.in.auth.model.LoginRequest;
-import github.codepawfect.clockinservice.adaptern.in.auth.model.MeResponse;
-import github.codepawfect.clockinservice.adaptern.in.auth.model.RegisterRequest;
+import github.codepawfect.clockinservice.adapter.in.auth.model.LoginRequest;
+import github.codepawfect.clockinservice.adapter.in.auth.model.MeResponse;
+import github.codepawfect.clockinservice.adapter.in.auth.model.RegisterRequest;
 import github.codepawfect.clockinservice.application.auth.AuthenticationUseCaseOrchestrator;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;

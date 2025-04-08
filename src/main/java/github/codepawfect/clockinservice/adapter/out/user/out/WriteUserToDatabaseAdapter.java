@@ -1,7 +1,7 @@
-package github.codepawfect.clockinservice.adaptern.out.user.out;
+package github.codepawfect.clockinservice.adapter.out.user.out;
 
-import github.codepawfect.clockinservice.adaptern.out.user.out.model.UserDocument;
-import github.codepawfect.clockinservice.adaptern.out.user.out.repository.UserRepository;
+import github.codepawfect.clockinservice.adapter.out.user.out.model.UserDocument;
+import github.codepawfect.clockinservice.adapter.out.user.out.repository.UserRepository;
 import github.codepawfect.clockinservice.domain.user.model.NewUser;
 import github.codepawfect.clockinservice.domain.user.ports.out.WriteUserToDatabasePort;
 import org.springframework.stereotype.Component;

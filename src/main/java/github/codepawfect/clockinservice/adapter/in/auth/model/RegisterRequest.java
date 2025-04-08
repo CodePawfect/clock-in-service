@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adaptern.in.auth.model;
+package github.codepawfect.clockinservice.adapter.in.auth.model;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;

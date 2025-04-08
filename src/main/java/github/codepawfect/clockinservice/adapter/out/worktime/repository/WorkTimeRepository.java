@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.adaptern.out.worktime.repository;
+package github.codepawfect.clockinservice.adapter.out.worktime.repository;
 
-import github.codepawfect.clockinservice.adaptern.out.worktime.model.WorkTimeDocument;
+import github.codepawfect.clockinservice.adapter.out.worktime.model.WorkTimeDocument;
 import java.util.List;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
-package github.codepawfect.clockinservice.adaptern.out.worktime;
+package github.codepawfect.clockinservice.adapter.out.worktime;
 
-import github.codepawfect.clockinservice.adaptern.out.worktime.model.WorkTimeDocument;
-import github.codepawfect.clockinservice.adaptern.out.worktime.repository.WorkTimeRepository;
+import github.codepawfect.clockinservice.adapter.out.worktime.model.WorkTimeDocument;
+import github.codepawfect.clockinservice.adapter.out.worktime.repository.WorkTimeRepository;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.WriteWorkTimeToDatabasePort;
 import org.springframework.stereotype.Component;

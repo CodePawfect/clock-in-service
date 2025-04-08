@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.adaptern.in.worktime.model.mapper;
+package github.codepawfect.clockinservice.adapter.in.worktime.model.mapper;
 
-import github.codepawfect.clockinservice.adaptern.in.worktime.model.WorkTimeDto;
+import github.codepawfect.clockinservice.adapter.in.worktime.model.WorkTimeDto;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import java.util.List;
 import org.mapstruct.Mapper;

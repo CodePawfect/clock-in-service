@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adaptern.in.common.exception;
+package github.codepawfect.clockinservice.adapter.in.common.exception;
 
 /**
  * UserAlreadyExistsException is a custom exception that is thrown when a user with the same

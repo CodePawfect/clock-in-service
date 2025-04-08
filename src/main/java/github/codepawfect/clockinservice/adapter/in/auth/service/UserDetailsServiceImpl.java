@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.adaptern.in.auth.service;
+package github.codepawfect.clockinservice.adapter.in.auth.service;
 
-import github.codepawfect.clockinservice.adaptern.out.user.out.repository.UserRepository;
+import github.codepawfect.clockinservice.adapter.out.user.out.repository.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

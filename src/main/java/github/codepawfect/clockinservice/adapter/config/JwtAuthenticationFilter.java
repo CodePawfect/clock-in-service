@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.adaptern.config;
+package github.codepawfect.clockinservice.adapter.config;
 
-import github.codepawfect.clockinservice.adaptern.in.common.JwtUtils;
+import github.codepawfect.clockinservice.adapter.in.common.JwtUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

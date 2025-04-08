@@ -1,9 +1,9 @@
-package github.codepawfect.clockinservice.adaptern.in.worktime;
+package github.codepawfect.clockinservice.adapter.in.worktime;
 
-import github.codepawfect.clockinservice.adaptern.in.worktime.model.CreateWorkTimeRequest;
-import github.codepawfect.clockinservice.adaptern.in.worktime.model.GetWorkTimesResponse;
-import github.codepawfect.clockinservice.adaptern.in.worktime.model.WorkTimeDto;
-import github.codepawfect.clockinservice.adaptern.in.worktime.model.mapper.WorkTimeMapper;
+import github.codepawfect.clockinservice.adapter.in.worktime.model.CreateWorkTimeRequest;
+import github.codepawfect.clockinservice.adapter.in.worktime.model.GetWorkTimesResponse;
+import github.codepawfect.clockinservice.adapter.in.worktime.model.WorkTimeDto;
+import github.codepawfect.clockinservice.adapter.in.worktime.model.mapper.WorkTimeMapper;
 import github.codepawfect.clockinservice.application.worktime.WorkTimeUseCaseOrchestrator;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import io.swagger.v3.oas.annotations.Operation;

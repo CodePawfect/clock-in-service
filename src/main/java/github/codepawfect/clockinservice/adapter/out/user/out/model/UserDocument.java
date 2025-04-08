@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adaptern.out.user.out.model;
+package github.codepawfect.clockinservice.adapter.out.user.out.model;
 
 import github.codepawfect.clockinservice.domain.user.model.NewUser;
 import github.codepawfect.clockinservice.domain.user.model.User;

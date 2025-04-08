@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adaptern.in.common;
+package github.codepawfect.clockinservice.adapter.in.common;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

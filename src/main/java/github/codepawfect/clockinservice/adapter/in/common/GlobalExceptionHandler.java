@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.adaptern.in.common;
+package github.codepawfect.clockinservice.adapter.in.common;
 
-import github.codepawfect.clockinservice.adaptern.in.common.exception.UserAlreadyExistsException;
+import github.codepawfect.clockinservice.adapter.in.common.exception.UserAlreadyExistsException;
 import io.jsonwebtoken.JwtException;
 import java.time.LocalDateTime;
 import java.util.List;

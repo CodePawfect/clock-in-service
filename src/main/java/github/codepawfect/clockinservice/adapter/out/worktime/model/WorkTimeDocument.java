@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adaptern.out.worktime.model;
+package github.codepawfect.clockinservice.adapter.out.worktime.model;
 
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import java.time.LocalDate;

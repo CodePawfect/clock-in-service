@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adaptern.config;
+package github.codepawfect.clockinservice.adapter.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
