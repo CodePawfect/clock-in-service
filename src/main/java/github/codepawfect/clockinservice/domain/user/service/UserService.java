@@ -2,8 +2,6 @@ package github.codepawfect.clockinservice.domain.user.service;
 
 import github.codepawfect.clockinservice.domain.user.model.NewUser;
 import github.codepawfect.clockinservice.domain.user.model.User;
-import github.codepawfect.clockinservice.domain.user.ports.in.CreateUserUseCasePort;
-import github.codepawfect.clockinservice.domain.user.ports.in.GetUserUseCasePort;
 import github.codepawfect.clockinservice.domain.user.ports.out.ReadUserFromDatabasePort;
 import github.codepawfect.clockinservice.domain.user.ports.out.WriteUserToDatabasePort;
 import org.springframework.stereotype.Service;
@@ -13,7 +11,7 @@ import org.springframework.stereotype.Service;
  * interfaces.
  */
 @Service
-public class UserService implements GetUserUseCasePort, CreateUserUseCasePort {
+public class UserService {
 
   private final ReadUserFromDatabasePort readUserFromDatabasePort;
   private final WriteUserToDatabasePort writeUserToDatabasePort;

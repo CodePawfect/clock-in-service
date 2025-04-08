@@ -23,10 +23,10 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  private final AuthenticationUseCaseOrchestrator authService;
+  private final AuthenticationUseCaseOrchestrator authenticationUseCaseOrchestrator;
 
-  public AuthController(AuthenticationUseCaseOrchestrator authService) {
-    this.authService = authService;
+  public AuthController(AuthenticationUseCaseOrchestrator authenticationUseCaseOrchestrator) {
+    this.authenticationUseCaseOrchestrator = authenticationUseCaseOrchestrator;
   }
 
   /**
@@ -45,7 +45,8 @@ public class AuthController {
       })
   @PostMapping("/login")
   public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest) {
-    ResponseCookie authCookie = authService.login(loginRequest.username(), loginRequest.password());
+    ResponseCookie authCookie =
+        authenticationUseCaseOrchestrator.login(loginRequest.username(), loginRequest.password());
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, authCookie.toString()).build();
   }
@@ -60,7 +61,8 @@ public class AuthController {
       description = "Registers a user with the given username and password")
   @PostMapping("/register")
   public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
-    authService.register(registerRequest.username(), registerRequest.password());
+    authenticationUseCaseOrchestrator.register(
+        registerRequest.username(), registerRequest.password());
 
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
@@ -71,7 +73,7 @@ public class AuthController {
       description = "Logs out the currently authenticated user by invalidating the JWT token")
   @PostMapping("/logout")
   public ResponseEntity<Void> logout() {
-    ResponseCookie cookie = authService.logout();
+    ResponseCookie cookie = authenticationUseCaseOrchestrator.logout();
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
   }

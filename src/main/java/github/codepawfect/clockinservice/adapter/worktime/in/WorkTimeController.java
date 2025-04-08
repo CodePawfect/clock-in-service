@@ -57,7 +57,7 @@ public class WorkTimeController {
       @RequestBody @Valid CreateWorkTimeRequest createWorkTimeRequest, Principal principal) {
     String username = principal.getName();
     String workTimeId =
-        workTimeUseCaseOrchestrator.createNewWorkTime(
+        workTimeUseCaseOrchestrator.createWorkTime(
             username,
             createWorkTimeRequest.date(),
             createWorkTimeRequest.hoursWorked(),

@@ -3,7 +3,10 @@ package github.codepawfect.clockinservice.application.auth;
 import github.codepawfect.clockinservice.adapter.auth.exception.UserAlreadyExistsException;
 import github.codepawfect.clockinservice.adapter.common.JwtUtils;
 import github.codepawfect.clockinservice.domain.user.model.NewUser;
-import github.codepawfect.clockinservice.domain.user.ports.in.CreateUserUseCasePort;
+import github.codepawfect.clockinservice.domain.user.ports.in.LoginUseCasePort;
+import github.codepawfect.clockinservice.domain.user.ports.in.LogoutUseCasePort;
+import github.codepawfect.clockinservice.domain.user.ports.in.RegisterUseCasePort;
+import github.codepawfect.clockinservice.domain.user.service.UserService;
 import java.util.Collections;
 import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,31 +19,27 @@ import org.springframework.stereotype.Service;
 
 /** AuthenticationService serves as workflow coordinator related to authentication */
 @Service
-public class AuthenticationUseCaseOrchestrator {
+public class AuthenticationUseCaseOrchestrator
+    implements LoginUseCasePort, LogoutUseCasePort, RegisterUseCasePort {
 
   private final AuthenticationManager authenticationManager;
   private final JwtUtils jwtUtils;
   private final PasswordEncoder passwordEncoder;
-  private final CreateUserUseCasePort createUserUseCasePort;
+  private final UserService userService;
 
   public AuthenticationUseCaseOrchestrator(
       AuthenticationManager authenticationManager,
       JwtUtils jwtUtils,
       PasswordEncoder passwordEncoder,
-      CreateUserUseCasePort createUserUseCasePort) {
+      UserService userService) {
     this.authenticationManager = authenticationManager;
     this.jwtUtils = jwtUtils;
     this.passwordEncoder = passwordEncoder;
-    this.createUserUseCasePort = createUserUseCasePort;
+    this.userService = userService;
   }
 
-  /**
-   * Authenticates a user with the given username and password.
-   *
-   * @param username the username
-   * @param password the password
-   * @return the authenticated user information
-   */
+  /** {@inheritDoc} */
+  @Override
   public ResponseCookie login(String username, String password) {
     Authentication authentication =
         authenticationManager.authenticate(
@@ -53,24 +52,17 @@ public class AuthenticationUseCaseOrchestrator {
     return jwtUtils.generateJwtCookie(userDetails);
   }
 
-  /**
-   * Registers a new user with the given username, password, and email.
-   *
-   * @param username the username
-   * @param password the password
-   */
+  /** {@inheritDoc} */
+  @Override
   public void register(String username, String password) throws UserAlreadyExistsException {
     NewUser newUser =
         new NewUser(username, passwordEncoder.encode(password), Collections.singletonList("USER"));
 
-    createUserUseCasePort.createUser(newUser);
+    userService.createUser(newUser);
   }
 
-  /**
-   * Logs out the currently authenticated user.
-   *
-   * @return the cookie to delete
-   */
+  /** {@inheritDoc} */
+  @Override
   public ResponseCookie logout() {
     return jwtUtils.invalidateAuthCookie();
   }

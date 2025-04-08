@@ -2,9 +2,6 @@ package github.codepawfect.clockinservice.domain.worktime.service;
 
 import github.codepawfect.clockinservice.common.DateUtils;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.CreateWorkTimeUseCasePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.DeleteWorkTimeUseCasePort;
-import github.codepawfect.clockinservice.domain.worktime.ports.in.GetWorkTimesUseCasePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.ReadWorkTimeFromDatabasePort;
 import github.codepawfect.clockinservice.domain.worktime.ports.out.WriteWorkTimeToDatabasePort;
 import java.time.LocalDate;
@@ -13,8 +10,7 @@ import org.springframework.stereotype.Service;
 
 /** WorkTimeService is the domain service for handling work time operations. */
 @Service
-public class WorkTimeService
-    implements CreateWorkTimeUseCasePort, GetWorkTimesUseCasePort, DeleteWorkTimeUseCasePort {
+public class WorkTimeService {
 
   private final WriteWorkTimeToDatabasePort writeWorkTimeToDatabasePort;
   private final ReadWorkTimeFromDatabasePort readWorkTimeFromDatabasePort;
@@ -26,9 +22,16 @@ public class WorkTimeService
     this.readWorkTimeFromDatabasePort = readWorkTimeFromDatabasePort;
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public String createWorkTime(String username, LocalDate date, Integer hoursWorked, String note) {
+  /**
+   * Creates a new work time entry.
+   *
+   * @param username the username of the user
+   * @param date the date of the work time entry
+   * @param hoursWorked the number of hours worked
+   * @param note an optional note for the work time entry
+   * @return the ID of the created work time entry
+   */
+  public String create(String username, LocalDate date, Integer hoursWorked, String note) {
     return writeWorkTimeToDatabasePort.save(
         new WorkTime(
             null,
@@ -40,15 +43,24 @@ public class WorkTimeService
             note));
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public List<WorkTime> getWorkTimes(String username, int calenderWeek, int year) {
+  /**
+   * Retrieves all work time entries for a user in a specific calendar week and year.
+   *
+   * @param username the username of the user
+   * @param calenderWeek the calendar week
+   * @param year the year
+   * @return a list of work time entries
+   */
+  public List<WorkTime> getAll(String username, int calenderWeek, int year) {
     return readWorkTimeFromDatabasePort.find(username, calenderWeek, year);
   }
 
-  /** {@inheritDoc} */
-  @Override
-  public void deleteWorkTime(String id) {
+  /**
+   * Deletes a work time entry by its ID.
+   *
+   * @param id the ID of the work time entry to delete
+   */
+  public void delete(String id) {
     writeWorkTimeToDatabasePort.delete(id);
   }
 }
