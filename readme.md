@@ -49,10 +49,14 @@ The project follows a hexagonal (ports and adapters) architecture:
 ## 📖 Setup and Installation
 
 1. Ensure you have Java 21 and Maven installed
-2. Make sure MongoDB is running locally or configure connection to remote instance
+2. Make sure MongoDB is running locally. You can use the docker-compose to start a MongoDB:
+   ```bash
+   docker-compose up -d
+   ```
+   This will start a MongoDB instance on the default port (27017). 
 3. Clone the repository
 4. Build the project: `mvn clean install`
-5. Run the application: `mvn spring-boot:run`
+5. Run the application: `mvn spring-boot:run -Dspring-boot.run.profiles=dev`
 
 ## Database
 

@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adapter.worktime.in;
+package github.codepawfect.clockinservice.adapter.in.worktime;
 
 import static io.restassured.RestAssured.given;
 
