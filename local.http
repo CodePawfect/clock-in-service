@@ -1,3 +1,0 @@
-### GET WORKTIMES BY CALENDER-WEEK AND YEAR
-GET http://localhost:8080/api/worktimes/11/2025
-Cookie: jwt-token={{admin-jwt}}
