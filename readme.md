@@ -2,6 +2,9 @@
 
 A Spring Boot service for managing employee work time tracking.
 
+
+**⚠️ NOTE: This project is currently under development and should be considered alpha/experimental. Use at your own risk! APIs may change frequently without notice. ⚠️**
+
 ## Overview
 
 Clock-In Service is a backend application that allows users to log their working hours and retrieve their time records
