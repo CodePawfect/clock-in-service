@@ -3,13 +3,17 @@ package github.codepawfect.clockinservice.adapter.in.auth;
 import github.codepawfect.clockinservice.adapter.in.auth.model.LoginRequest;
 import github.codepawfect.clockinservice.adapter.in.auth.model.MeResponse;
 import github.codepawfect.clockinservice.adapter.in.auth.model.RegisterRequest;
-import github.codepawfect.clockinservice.application.auth.AuthenticationUseCaseOrchestrator;
+import github.codepawfect.clockinservice.application.auth.LoginUseCase;
+import github.codepawfect.clockinservice.application.auth.LogoutUseCase;
+import github.codepawfect.clockinservice.application.auth.RegisterUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import jakarta.validation.Valid;
 import java.util.List;
+
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
@@ -20,14 +24,13 @@ import org.springframework.web.bind.annotation.*;
 
 /** Controller for handling authentication requests. */
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  private final AuthenticationUseCaseOrchestrator authenticationUseCaseOrchestrator;
-
-  public AuthController(AuthenticationUseCaseOrchestrator authenticationUseCaseOrchestrator) {
-    this.authenticationUseCaseOrchestrator = authenticationUseCaseOrchestrator;
-  }
+  private final LoginUseCase loginUseCase;
+  private final LogoutUseCase logoutUseCase;
+  private final RegisterUseCase registerUseCase;
 
   /**
    * Authenticates a user with the given username and password.
@@ -46,7 +49,7 @@ public class AuthController {
   @PostMapping("/login")
   public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest) {
     ResponseCookie authCookie =
-        authenticationUseCaseOrchestrator.login(loginRequest.username(), loginRequest.password());
+        loginUseCase.execute(loginRequest.username(), loginRequest.password());
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, authCookie.toString()).build();
   }
@@ -61,7 +64,7 @@ public class AuthController {
       description = "Registers a user with the given username and password")
   @PostMapping("/register")
   public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
-    authenticationUseCaseOrchestrator.register(
+    registerUseCase.execute(
         registerRequest.username(), registerRequest.password());
 
     return ResponseEntity.status(HttpStatus.CREATED).build();
@@ -73,7 +76,7 @@ public class AuthController {
       description = "Logs out the currently authenticated user by invalidating the JWT token")
   @PostMapping("/logout")
   public ResponseEntity<Void> logout() {
-    ResponseCookie cookie = authenticationUseCaseOrchestrator.logout();
+    ResponseCookie cookie = logoutUseCase.execute();
 
     return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
   }
