@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adapter.config;
+package github.codepawfect.clockinservice.adapter.in.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Contact;

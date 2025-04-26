@@ -1,4 +1,4 @@
-package github.codepawfect.clockinservice.adapter.config;
+package github.codepawfect.clockinservice.adapter.in.config;
 
 import java.util.Arrays;
 import java.util.List;
