@@ -3,9 +3,9 @@ package github.codepawfect.clockinservice.adapter.in.worktime;
 import static io.restassured.RestAssured.given;
 
 import github.codepawfect.clockinservice.adapter.BaseIntegrationTest;
-import github.codepawfect.clockinservice.adapter.in.common.JwtUtils;
-import github.codepawfect.clockinservice.adapter.in.worktime.model.CreateWorkTimeRequest;
-import github.codepawfect.clockinservice.adapter.out.worktime.repository.WorkTimeRepository;
+import github.codepawfect.clockinservice.shared.JwtUtils;
+import github.codepawfect.clockinservice.adapter.driven.worktime.model.CreateWorkTimeRequest;
+import github.codepawfect.clockinservice.adapter.driving.worktime.repository.WorkTimeRepository;
 import java.time.LocalDate;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
