@@ -1,6 +1,6 @@
 package github.codepawfect.clockinservice.migration;
 
-import github.codepawfect.clockinservice.adapter.driving.user.out.model.UserDocument;
+import github.codepawfect.clockinservice.adapter.out.user.out.model.UserDocument;
 import io.mongock.api.annotations.ChangeUnit;
 import io.mongock.api.annotations.Execution;
 import io.mongock.api.annotations.RollbackExecution;

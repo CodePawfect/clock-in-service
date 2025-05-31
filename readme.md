@@ -2,8 +2,8 @@
 
 A Spring Boot service for managing employee work time tracking.
 
-
-**⚠️ NOTE: This project is currently under development and should be considered alpha/experimental. Use at your own risk! APIs may change frequently without notice. ⚠️**
+**⚠️ NOTE: This project is currently under development and should be considered alpha/experimental. Use at your own
+risk! APIs may change frequently without notice. ⚠️**
 
 ## Overview
 
@@ -56,7 +56,7 @@ The project follows a hexagonal (ports and adapters) architecture:
    ```bash
    docker-compose up -d
    ```
-   This will start a MongoDB instance on the default port (27017). 
+   This will start a MongoDB instance on the default port (27017).
 3. Clone the repository
 4. Build the project: `mvn clean install`
 5. Run the application: `mvn spring-boot:run -Dspring-boot.run.profiles=dev`

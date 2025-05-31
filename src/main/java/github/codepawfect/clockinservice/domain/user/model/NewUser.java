@@ -11,15 +11,15 @@ import java.util.List;
  */
 public record NewUser(String username, String password, List<String> roles) {
 
-    public NewUser {
-        if (username == null || username.isBlank()) {
-            throw new IllegalArgumentException("Username cannot be null or blank");
-        }
-        if (password == null || password.isBlank()) {
-            throw new IllegalArgumentException("Password cannot be null or blank");
-        }
-        if (roles == null || roles.isEmpty()) {
-            throw new IllegalArgumentException("Roles cannot be null or empty");
-        }
+  public NewUser {
+    if (username == null || username.isBlank()) {
+      throw new IllegalArgumentException("Username cannot be null or blank");
     }
+    if (password == null || password.isBlank()) {
+      throw new IllegalArgumentException("Password cannot be null or blank");
+    }
+    if (roles == null || roles.isEmpty()) {
+      throw new IllegalArgumentException("Roles cannot be null or empty");
+    }
+  }
 }
