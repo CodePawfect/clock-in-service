@@ -28,8 +28,8 @@ public record CreateWorkTimeRequest(
         @Max(12)
         Integer hoursWorked,
     @Schema(
-            description = "Calendar week of the work time entry",
-            example = "34",
+            description = "Optional note for the work time entry",
+            example = "Worked on project X",
             requiredMode = Schema.RequiredMode.REQUIRED)
         @Nullable
         String note) {}
