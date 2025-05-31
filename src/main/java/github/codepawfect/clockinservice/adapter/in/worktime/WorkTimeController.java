@@ -2,12 +2,10 @@ package github.codepawfect.clockinservice.adapter.in.worktime;
 
 import github.codepawfect.clockinservice.adapter.in.worktime.model.CreateWorkTimeRequest;
 import github.codepawfect.clockinservice.adapter.in.worktime.model.GetWorkTimesResponse;
-import github.codepawfect.clockinservice.adapter.in.worktime.model.WorkTimeDto;
-import github.codepawfect.clockinservice.adapter.in.worktime.model.mapper.WorkTimeMapper;
-import github.codepawfect.clockinservice.application.in.worktime.CreateWorkTimeUseCase;
-import github.codepawfect.clockinservice.application.in.worktime.DeleteWorkTimeUseCase;
-import github.codepawfect.clockinservice.application.in.worktime.GetWorkTimesUseCase;
-import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
+import github.codepawfect.clockinservice.adapter.in.worktime.model.WorkTimeResource;
+import github.codepawfect.clockinservice.application.in.worktime.usecase.CreateWorkTimeUseCase;
+import github.codepawfect.clockinservice.application.in.worktime.usecase.DeleteWorkTimeUseCase;
+import github.codepawfect.clockinservice.application.in.worktime.usecase.GetWorkTimesUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,7 +33,6 @@ public class WorkTimeController {
   private final CreateWorkTimeUseCase createWorkTimeUseCase;
   private final GetWorkTimesUseCase getWorkTimesUseCase;
   private final DeleteWorkTimeUseCase deleteWorkTimeUseCase;
-  private final WorkTimeMapper workTimeMapper;
 
   /**
    * Creates a new work time entry.
@@ -56,17 +53,21 @@ public class WorkTimeController {
   public ResponseEntity<URI> createWorkTime(
       @RequestBody @Valid CreateWorkTimeRequest createWorkTimeRequest, Principal principal) {
     String username = principal.getName();
-    String workTimeId =
-        createWorkTimeUseCase.execute(
+
+    CreateWorkTimeUseCase.CreateWorkTimeCommandDTO command =
+        new CreateWorkTimeUseCase.CreateWorkTimeCommandDTO(
             username,
             createWorkTimeRequest.date(),
             createWorkTimeRequest.hoursWorked(),
             createWorkTimeRequest.note());
 
+    CreateWorkTimeUseCase.CreateWorkTimeResponseDTO response =
+        createWorkTimeUseCase.execute(command);
+
     URI location =
         ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
-            .buildAndExpand(workTimeId)
+            .buildAndExpand(response.id())
             .toUri();
 
     return ResponseEntity.created(location).build();
@@ -104,9 +105,15 @@ public class WorkTimeController {
       Principal principal) {
     String username = principal.getName();
 
-    List<WorkTime> workTimes = getWorkTimesUseCase.execute(username, calenderWeek, year);
-    List<WorkTimeDto> workTimeDtos = workTimeMapper.toDtos(workTimes);
-    GetWorkTimesResponse getWorkTimesResponse = new GetWorkTimesResponse(workTimeDtos);
+    GetWorkTimesUseCase.GetWorkTimesQueryDTO query =
+        new GetWorkTimesUseCase.GetWorkTimesQueryDTO(username, calenderWeek, year);
+
+    GetWorkTimesUseCase.GetWorkTimesResponseDTO response = getWorkTimesUseCase.execute(query);
+
+    List<WorkTimeResource> workTimeResources =
+        response.workTimes().stream().map(WorkTimeResource::from).toList();
+
+    GetWorkTimesResponse getWorkTimesResponse = new GetWorkTimesResponse(workTimeResources);
 
     return ResponseEntity.ok(getWorkTimesResponse);
   }
@@ -135,7 +142,7 @@ public class WorkTimeController {
           @NotBlank
           @Valid
           String id) {
-    deleteWorkTimeUseCase.execute(id);
+    deleteWorkTimeUseCase.execute(new DeleteWorkTimeUseCase.DeleteWorkTimeCommandDTO(id));
 
     return ResponseEntity.noContent().build();
   }

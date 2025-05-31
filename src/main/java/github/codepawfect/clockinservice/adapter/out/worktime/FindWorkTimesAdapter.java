@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class FindWorkTimesAdapter implements FindWorkTimesPort {
 
-    private final WorkTimeRepository workTimeRepository;
+  private final WorkTimeRepository workTimeRepository;
 
-    @Override
-    public List<WorkTime> getAll(String username, int calenderWeek, int year) {
-        return workTimeRepository
+  @Override
+  public List<WorkTime> getAll(String username, int calenderWeek, int year) {
+    return workTimeRepository
         .findByUsernameAndCalenderWeekAndYear(username, calenderWeek, year)
         .stream()
         .map(WorkTimeDocument::toWorkTime)
         .toList();
-    }
+  }
 }

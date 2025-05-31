@@ -3,9 +3,9 @@ package github.codepawfect.clockinservice.adapter.in.auth;
 import github.codepawfect.clockinservice.adapter.in.auth.model.LoginRequest;
 import github.codepawfect.clockinservice.adapter.in.auth.model.MeResponse;
 import github.codepawfect.clockinservice.adapter.in.auth.model.RegisterRequest;
-import github.codepawfect.clockinservice.application.in.auth.LoginUseCase;
-import github.codepawfect.clockinservice.application.in.auth.LogoutUseCase;
-import github.codepawfect.clockinservice.application.in.auth.RegisterUseCase;
+import github.codepawfect.clockinservice.application.in.auth.usecase.LoginUserUseCase;
+import github.codepawfect.clockinservice.application.in.auth.usecase.LogoutUserUseCase;
+import github.codepawfect.clockinservice.application.in.auth.usecase.RegisterUserUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,7 +15,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,9 +26,9 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/auth")
 public class AuthController {
 
-  private final LoginUseCase loginUseCase;
-  private final LogoutUseCase logoutUseCase;
-  private final RegisterUseCase registerUseCase;
+  private final LoginUserUseCase loginUserUseCase;
+  private final LogoutUserUseCase logoutUserUseCase;
+  private final RegisterUserUseCase registerUserUseCase;
 
   /**
    * Authenticates a user with the given username and password.
@@ -47,10 +46,12 @@ public class AuthController {
       })
   @PostMapping("/login")
   public ResponseEntity<Void> login(@RequestBody @Valid LoginRequest loginRequest) {
-    ResponseCookie authCookie =
-        loginUseCase.execute(loginRequest.username(), loginRequest.password());
+    LoginUserUseCase.LoginUserQueryDTO query =
+        new LoginUserUseCase.LoginUserQueryDTO(loginRequest.username(), loginRequest.password());
 
-    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, authCookie.toString()).build();
+    LoginUserUseCase.LoginUserResponseDTO response = loginUserUseCase.execute(query);
+
+    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, response.cookie().toString()).build();
   }
 
   /**
@@ -63,8 +64,11 @@ public class AuthController {
       description = "Registers a user with the given username and password")
   @PostMapping("/register")
   public ResponseEntity<Void> register(@RequestBody @Valid RegisterRequest registerRequest) {
-    registerUseCase.execute(
-        registerRequest.username(), registerRequest.password());
+    RegisterUserUseCase.RegisterUserCommandDTO command =
+        new RegisterUserUseCase.RegisterUserCommandDTO(
+            registerRequest.username(), registerRequest.password());
+
+    registerUserUseCase.execute(command);
 
     return ResponseEntity.status(HttpStatus.CREATED).build();
   }
@@ -75,9 +79,9 @@ public class AuthController {
       description = "Logs out the currently authenticated user by invalidating the JWT token")
   @PostMapping("/logout")
   public ResponseEntity<Void> logout() {
-    ResponseCookie cookie = logoutUseCase.execute();
+    LogoutUserUseCase.LogoutUserResponseDTO response = logoutUserUseCase.execute();
 
-    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, cookie.toString()).build();
+    return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, response.cookie().toString()).build();
   }
 
   @Operation(

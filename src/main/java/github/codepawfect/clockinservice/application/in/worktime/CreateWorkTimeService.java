@@ -1,10 +1,9 @@
-package github.codepawfect.clockinservice.domain.worktime;
+package github.codepawfect.clockinservice.application.in.worktime;
 
-import github.codepawfect.clockinservice.application.in.worktime.CreateWorkTimeUseCase;
+import github.codepawfect.clockinservice.application.in.worktime.usecase.CreateWorkTimeUseCase;
 import github.codepawfect.clockinservice.application.out.worktime.SaveWorkTimePort;
 import github.codepawfect.clockinservice.domain.worktime.model.WorkTime;
 import github.codepawfect.clockinservice.shared.DateUtils;
-import java.time.LocalDate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,17 +15,17 @@ public class CreateWorkTimeService implements CreateWorkTimeUseCase {
 
   /** {@inheritDoc} */
   @Override
-  public String execute(String username, LocalDate date, Integer hoursWorked, String note) {
+  public CreateWorkTimeResponseDTO execute(CreateWorkTimeCommandDTO command) {
     var newWorktime =
         new WorkTime(
             null,
-            username,
-            date,
-            hoursWorked,
-            date.getYear(),
-            DateUtils.getCalenderWeek(date),
-            note);
+            command.username(),
+            command.date(),
+            command.hoursWorked(),
+            command.date().getYear(),
+            DateUtils.getCalenderWeek(command.date()),
+            command.note());
 
-    return saveWorkTimePort.save(newWorktime);
+    return new CreateWorkTimeResponseDTO(saveWorkTimePort.save(newWorktime));
   }
 }

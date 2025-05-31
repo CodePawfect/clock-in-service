@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.domain.user;
+package github.codepawfect.clockinservice.application.in.auth;
 
-import github.codepawfect.clockinservice.application.in.auth.RegisterUseCase;
+import github.codepawfect.clockinservice.application.in.auth.usecase.RegisterUserUseCase;
 import github.codepawfect.clockinservice.application.out.auth.SaveUserPort;
 import github.codepawfect.clockinservice.application.out.auth.UserExistsPort;
 import github.codepawfect.clockinservice.domain.user.model.NewUser;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class RegisterUserService implements RegisterUseCase {
+public class RegisterUserUserService implements RegisterUserUseCase {
 
   private final PasswordEncoder passwordEncoder;
   private final SaveUserPort saveUserPort;
@@ -20,14 +20,18 @@ public class RegisterUserService implements RegisterUseCase {
 
   /** {@inheritDoc} */
   @Override
-  public void execute(String username, String password) throws UserAlreadyExistsException {
+  public void execute(RegisterUserCommandDTO command) throws UserAlreadyExistsException {
     NewUser newUser =
-        new NewUser(username, passwordEncoder.encode(password), Collections.singletonList("USER"));
+        new NewUser(
+            command.username(),
+            passwordEncoder.encode(command.password()),
+            Collections.singletonList("USER"));
 
-    var exists = userExistsPort.existsByUsername(username);
+    var exists = userExistsPort.existsByUsername(command.username());
 
     if (exists) {
-      throw new UserAlreadyExistsException("User with username " + username + " already exists.");
+      throw new UserAlreadyExistsException(
+          "User with username " + command.username() + " already exists.");
     }
 
     saveUserPort.save(newUser);

@@ -1,9 +1,8 @@
-package github.codepawfect.clockinservice.domain.user;
+package github.codepawfect.clockinservice.application.in.auth;
 
-import github.codepawfect.clockinservice.application.in.auth.LoginUseCase;
+import github.codepawfect.clockinservice.application.in.auth.usecase.LoginUserUseCase;
 import github.codepawfect.clockinservice.shared.JwtUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseCookie;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,22 +12,22 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class LoginUserService implements LoginUseCase {
+public class LoginUserUserService implements LoginUserUseCase {
 
   private final AuthenticationManager authenticationManager;
   private final JwtUtils jwtUtils;
 
   /** {@inheritDoc} */
   @Override
-  public ResponseCookie execute(String username, String password) {
+  public LoginUserResponseDTO execute(LoginUserQueryDTO query) {
     Authentication authentication =
         authenticationManager.authenticate(
-            new UsernamePasswordAuthenticationToken(username, password));
+            new UsernamePasswordAuthenticationToken(query.username(), query.password()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     UserDetails userDetails = (UserDetails) authentication.getPrincipal();
 
-    return jwtUtils.generateJwtCookie(userDetails);
+    return new LoginUserResponseDTO(jwtUtils.generateJwtCookie(userDetails));
   }
 }

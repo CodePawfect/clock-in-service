@@ -1,6 +1,6 @@
-package github.codepawfect.clockinservice.domain.worktime;
+package github.codepawfect.clockinservice.application.in.worktime;
 
-import github.codepawfect.clockinservice.application.in.worktime.DeleteWorkTimeUseCase;
+import github.codepawfect.clockinservice.application.in.worktime.usecase.DeleteWorkTimeUseCase;
 import github.codepawfect.clockinservice.application.out.worktime.DeleteWorkTimePort;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ public class DeleteWorkTimeService implements DeleteWorkTimeUseCase {
 
   /** {@inheritDoc} */
   @Override
-  public void execute(String id) {
-    deleteWorkTimePort.deleteWorkTime(id);
+  public void execute(DeleteWorkTimeCommandDTO command) {
+    deleteWorkTimePort.deleteWorkTime(command.id());
   }
 }
